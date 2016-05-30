@@ -1,5 +1,7 @@
 package com.fruit.client.activity;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
@@ -8,6 +10,7 @@ import com.fruit.client.R;
 
 import android.app.Application;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.widget.TabHost;
 
@@ -18,7 +21,7 @@ import com.fruit.core.activity.FruitActivity;
 /**
  * Created by user on 2016/3/3.
  */
-public class TestActivity extends FruitActivity implements MyApplication.OnReceiveData{
+public class TestActivity extends FruitActivity implements BDLocationListener {
 
     private TextureMapView mMapView;
     private TextureMapView mMapView2;
@@ -26,6 +29,7 @@ public class TestActivity extends FruitActivity implements MyApplication.OnRecei
     private BaiduMap mBaiduMap2;
     private ViewPager pager = null;
     private MyApplication mMyApplication;
+    private Locationor locationor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class TestActivity extends FruitActivity implements MyApplication.OnRecei
 
         tabHost.addTab(tabHost.newTabSpec("textdesc").setIndicator("Scrollview页")
                 .setContent(R.id.textdesc));
+        locationor = new Locationor(this);
+        locationor.setLocation(this);
     }
 
     @Override
@@ -68,8 +74,7 @@ public class TestActivity extends FruitActivity implements MyApplication.OnRecei
         super.onResume();
         // activity 恢复时同时恢复地图控件
         mMapView.onResume();
-        mMyApplication.setReceiveDataListener(this);
-        Locationor.getInstance(getApplication()).startLocation();
+        locationor.startLocation();
     }
 
     @Override
@@ -77,6 +82,7 @@ public class TestActivity extends FruitActivity implements MyApplication.OnRecei
         super.onDestroy();
         // activity 销毁时同时销毁地图控件
         mMapView.onDestroy();
+        locationor.destroyLocation();
     }
 
     @Override
@@ -90,7 +96,7 @@ public class TestActivity extends FruitActivity implements MyApplication.OnRecei
     }
 
     @Override
-    public void onReceive(double longitude, double latitude) {
-        Locationor.getInstance(getApplication()).updateLocation(mMapView, new LatLng(latitude, longitude), 16);
+    public void onReceiveLocation(BDLocation bdLocation) {
+//        locationor.updateLocation(mMapView, new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude()), 16);
     }
 }

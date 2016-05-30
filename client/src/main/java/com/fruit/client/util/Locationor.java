@@ -41,8 +41,9 @@ public class Locationor {
 
     public void setLocation(BDLocationListener mLocationListener){
         if (mBDLocationListener==null){
-            mBDLocationListener = mLocationListener;
+
         }
+        mBDLocationListener = mLocationListener;
         if (!isOpenLocation){
             mClientOption.setIsNeedAddress(true);
             mClientOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
