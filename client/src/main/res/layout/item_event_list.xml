@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/def_event_icon"/>
+
+    <TextView
+        android:id="@+id/label_rank"
+        android:layout_toRightOf="@id/img"
+        android:layout_width="60dp"
+        android:layout_height="16dp"
+        android:textColor="@color/text_color_normal"
+        android:layout_marginLeft="8dp"
+        android:textSize="12sp"
+        android:gravity="center_vertical"
+        android:text="等级:"/>
+
+    <TextView
+        android:id="@+id/rank"
+        android:layout_toRightOf="@id/label_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:textColor="@color/red"
+        android:layout_marginLeft="8dp"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="紧急"/>
+
+    <TextView
+        android:id="@+id/label_plate_number"
+        android:layout_below="@id/label_rank"
+        android:layout_toRightOf="@id/img"
+        android:layout_width="60dp"
+        android:layout_height="16dp"
+        android:textColor="@color/text_color_normal"
+        android:layout_marginLeft="8dp"
+        android:textSize="12sp"
+        android:gravity="center_vertical"
+        android:text="车牌号:"/>
+
+    <TextView
+        android:id="@+id/plate_number"
+        android:layout_below="@id/label_rank"
+        android:layout_toRightOf="@id/label_plate_number"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:textColor="@color/text_color_gray"
+        android:layout_marginLeft="8dp"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="苏E12345"/>
+
+    <TextView
+        android:id="@+id/label_route_code"
+        android:layout_below="@id/label_plate_number"
+        android:layout_toRightOf="@id/img"
+        android:layout_width="60dp"
+        android:layout_height="16dp"
+        android:textColor="@color/text_color_normal"
+        android:layout_marginLeft="8dp"
+        android:textSize="12sp"
+        android:gravity="center_vertical"
+        android:text="路线编号:"/>
+
+    <TextView
+        android:id="@+id/route_code"
+        android:layout_below="@id/label_plate_number"
+        android:layout_toRightOf="@id/label_route_code"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:textColor="@color/text_color_gray"
+        android:layout_marginLeft="8dp"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="G204"/>
+
+    <TextView
+        android:id="@+id/deal_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/text_color_normal"
+        android:textSize="@dimen/font16" />
+
+    <TextView
+        android:id="@+id/estimate_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/orange"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="12sp"
+        android:text="2016-4-28"/>
+</RelativeLayout>

@@ -1,0 +1,109 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:background">@color/white</item>&ndash;&gt;-->
+        <!--<item name="android:spacing">0dp</item>-->
+    <!--</style>-->
+
+    <!--tab style Start-->
+    <style name="Widget.ActionBar.TabView" parent="@android:style/Widget">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingLeft">4.0dip</item>
+        <item name="android:paddingRight">4.0dip</item>
+    </style>
+    <style name="Widget.Holo.Tab" parent="@style/Widget.ActionBar.TabView">
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">0.0dip</item>
+        <item name="android:layout_height">55.0dip</item>
+        <item name="android:minWidth">80.0dip</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+    <style name="TabIndicator">
+        <item name="android:textSize">@dimen/text_medium_1</item>
+        <item name="android:textColor">@color/text_color_gray</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--tab style end-->
+
+    <!-- menu style start -->
+    <style name="menu_title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">5dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="menu_btn">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="deep_dark_text">
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="dark_text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/deep_dark</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--menu style end  -->
+
+    <!--textview start-->
+    <style name="textview_topic">
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_color_gray</item>
+    </style>
+
+    <style name="textview_title">
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_color_gray</item>
+    </style>
+    <style name="textview_content">
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <!--textview start-->
+
+    <!-- 自定义loading dialog start -->
+    <style name="loading_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/loading_bg</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <!-- 自定义loading dialog end-->
+
+    <style name="CityPickerTheme" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="mystyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/bg</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+</resources>

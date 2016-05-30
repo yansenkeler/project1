@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <tr.xip.errorview.ErrorView
+        xmlns:errorview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        errorview:ev_title="数据加载失败"
+        errorview:ev_titleColor="@color/theme_blue_text_normal"
+        errorview:ev_subtitle=""
+        errorview:ev_subtitleColor="@color/theme_blue_text_normal"
+        errorview:ev_errorImage="@drawable/back"
+        errorview:ev_showTitle="true"
+        errorview:ev_showSubtitle="false"
+        errorview:ev_showRetryButton="true"
+        errorview:ev_retryButtonText="重新加载"
+        errorview:ev_retryButtonBackground="@color/white"
+        errorview:ev_retryButtonTextColor="@color/theme_blue_text_normal" />
+
+</LinearLayout>

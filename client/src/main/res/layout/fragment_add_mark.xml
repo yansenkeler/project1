@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/root">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="48dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/currentAddress"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="当前位置:苏州市张家港市"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/padding_horizontal_root_layout"
+                android:paddingRight="@dimen/padding_horizontal_root_layout">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/text_color_normal"
+                        android:textSize="@dimen/font14"
+                        android:layout_marginRight="8dp"
+                        android:text="路线编号"/>
+
+                    <TextView
+                        android:id="@+id/text_route_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="@dimen/font14"
+                        android:text=""/>
+
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/spinner_singal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_input"
+                    android:layout_marginTop="@dimen/vertical_margin_views_big"
+                    android:background="@drawable/bg_spinner">
+                </Spinner>
+
+                <Spinner
+                    android:id="@+id/spinner_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_input"
+                    android:layout_marginTop="@dimen/vertical_margin_views_big"
+                    android:background="@drawable/bg_spinner">
+                </Spinner>
+
+                <Spinner
+                    android:id="@+id/spinner_support_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_input"
+                    android:layout_marginTop="@dimen/vertical_margin_views_big"
+                    android:background="@drawable/bg_spinner">
+                </Spinner>
+
+                <EditText
+                    android:id="@+id/edittext_pagesize"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_edittext_layout"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/text_color_normal"
+                    android:textSize="@dimen/font16"
+                    android:background="@drawable/bg_login_edittet"
+                    android:layout_marginTop="@dimen/vertical_margin_views_big"
+                    android:hint="输入版面尺寸"
+                    android:inputType="numberSigned"
+                    android:maxLines="1"
+                    android:maxLength="16"/>
+
+                <EditText
+                    android:id="@+id/edittext_basesize"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_edittext_layout"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/text_color_normal"
+                    android:textSize="@dimen/font16"
+                    android:background="@drawable/bg_login_edittet"
+                    android:layout_marginTop="@dimen/vertical_margin_views_big"
+                    android:hint="输入基础尺寸"
+                    android:inputType="numberSigned"
+                    android:maxLines="1"
+                    android:maxLength="16"/>
+
+                <EditText
+                    android:id="@+id/edittext_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_edittext_layout"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/text_color_normal"
+                    android:textSize="@dimen/font16"
+                    android:background="@drawable/bg_login_edittet"
+                    android:layout_marginTop="@dimen/vertical_margin_views_big"
+                    android:hint="输入立柱尺寸"
+                    android:inputType="numberSigned"
+                    android:maxLines="1"
+                    android:maxLength="16"/>
+
+                <EditText
+                    android:id="@+id/edittext_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_edittext_layout"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/text_color_normal"
+                    android:textSize="@dimen/font16"
+                    android:background="@drawable/bg_login_edittet"
+                    android:layout_marginTop="@dimen/vertical_margin_views_big"
+                    android:hint="输入描述"
+                    android:maxLines="1"
+                    android:maxLength="16"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/font14"
+                android:padding="8dp"
+                android:text="上传图片"/>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/add"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/add_photo_bg"/>
+
+                <ProgressBar
+                    android:visibility="gone"
+                    android:id="@+id/progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/textview_add"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_button"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font16"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="添加"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+</RelativeLayout>

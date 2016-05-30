@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group1"
+        android:enabled="true"
+        android:menuCategory="container">
+        <item
+            android:id="@+id/add_pile"
+            android:title="添加路桩"
+            android:icon="@drawable/add_pile"/>
+        <item
+            android:id="@+id/add_mark"
+            android:title="添加标志设施"
+            android:icon="@drawable/add_mark"/>
+        <item
+            android:id="@+id/add_fence"
+            android:title="添加护栏设施"
+            android:icon="@drawable/add_fence"/>
+        <item
+            android:id="@+id/add_other"
+            android:title="添加其他设施"
+            android:icon="@drawable/add_other"/>
+    </group>
+
+    <group
+        android:id="@+id/group2"
+        android:enabled="true"
+        android:menuCategory="system">
+        <item
+            android:id="@+id/initial_system"
+            android:title="系统初始化"
+            android:icon="@drawable/system_init"/>
+        <item
+            android:id="@+id/clear_cache"
+            android:title="清空缓存"
+            android:icon="@drawable/clear_cache"/>
+        <item
+            android:id="@+id/check_update"
+            android:title="检查更新"
+            android:icon="@drawable/check_update"/>
+    </group>
+</menu>

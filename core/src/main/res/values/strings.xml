@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">core</string>
+
+    <string name="Fruit_URL">http://www.fruit666.com:8080/wuliu</string>
+    <!--<string name="Fruit_URL">http://192.168.1.105:8080/api</string>-->
+
+    <!--<string name="webserviceUrl">http://192.168.1.173:8000/ws_out.asmx</string>-->
+    <string name="webserviceUrl">http://58.210.48.110:8000/ws_out.asmx</string>
+    <string name="webserviceNameSpace">http://tempuri.org/</string>
+</resources>

@@ -1,0 +1,34 @@
+apply plugin: 'keler.android.library'
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion '19.1.0'
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 19
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    sourceSets {
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    compile 'keler.android.support:support-v4:19.+'
+    compile files('libs/async-httpclient-1.0.0.jar')
+    compile files('libs/galaxy.jar')
+    compile files('libs/sapi-core-6.10.1.jar')
+    compile files('libs/walletsdk_v3.4_20151215.jar')
+}

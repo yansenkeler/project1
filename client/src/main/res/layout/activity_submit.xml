@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.fruit.widget.tab.FruitTabHost
+        android:id="@+id/tab_host"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        custom:colorTab="@android:color/holo_blue_dark"
+        custom:colorBgActived="@color/button_blue_pressed"
+        custom:colorTabBackground="@color/white"
+        custom:colorText="@color/black"
+        custom:colorTextSelected="@android:color/holo_blue_dark"></com.fruit.widget.tab.FruitTabHost>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
+</LinearLayout>

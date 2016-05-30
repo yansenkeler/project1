@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:id="@+id/delete_event"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_button_red"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font14"
+        android:text="删除"/>
+
+    <Button
+        android:id="@+id/add_event"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/normal_btn_bg"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font14"
+        android:text="保存"/>
+
+    <Button
+        android:id="@+id/submit_event"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/normal_btn_bg"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font14"
+        android:text="提交"/>
+</LinearLayout>

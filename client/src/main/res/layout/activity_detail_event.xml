@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textSize="@dimen/font16"
+            android:textColor="@color/color_black"
+            android:text="当前状态：审核中"
+            android:id="@+id/text_status" />
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="事件编号"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="123456"
+                android:id="@+id/text_event_no" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="发布日期"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="2016-5-8"
+                android:id="@+id/text_bill_date" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="预计完成时间"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="2016-5-17"
+                android:id="@+id/text_requ_end_date" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="等级"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="一般"
+                android:id="@+id/text_grade" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="巡查车号"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="123"
+                android:id="@+id/text_car_no" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="路线编号"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="S338"
+                android:id="@+id/text_route_code" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="桩号"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="-123k"
+                android:id="@+id/text_pile_no" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="用户"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="adimn"
+                android:id="@+id/text_user_name" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="联系电话"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:id="@+id/text_user_phone" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="方向"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="上行"
+                android:id="@+id/text_direction" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="位置"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="经度：123\n纬度：456"
+                android:id="@+id/text_lon_lat" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/bg_button"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font12"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:text="查看地图"
+                android:id="@+id/btn_check_map" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="类别"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="路政"
+                android:id="@+id/text_type1" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="项目"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="违法建筑"
+                android:id="@+id/text_type2" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="项目类别"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="项目用地"
+                android:id="@+id/text_type3" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="处理类别"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="新增"
+                android:id="@+id/text_cltype" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="数量"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="2处"
+                android:id="@+id/text_count" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="处理情况"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="非立案"
+                android:id="@+id/text_process_type" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="是否处理"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="否"
+                android:id="@+id/text_is_process" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="施工单位"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="张家港"
+                android:id="@+id/text_process_dept" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_view_height"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:textColor="@color/color_black"
+                android:text="备注"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="16dp"
+                android:textSize="@dimen/font16"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_color_gray"
+                android:text="测试"
+                android:id="@+id/text_memo" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_no_pic"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/font16"
+                android:text="还未有图片上传"/>
+
+            <GridView
+                android:id="@+id/grid_uploaded_img"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:numColumns="4"
+                ></GridView>
+
+        </FrameLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <GridView
+                android:id="@+id/grid_upload_img"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:numColumns="4"
+                ></GridView>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font16"
+                android:background="@drawable/bg_button_normal"
+                android:text="上传"
+                android:id="@+id/btn_upload_img" />
+        </LinearLayout>
+
+        <include layout="@layout/line_divider"/>
+
+        <FrameLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/normal_btn_bg"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font14"
+                android:text="确认"/>
+        </FrameLayout>
+    </LinearLayout>
+
+</ScrollView>

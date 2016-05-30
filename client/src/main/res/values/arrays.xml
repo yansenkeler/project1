@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="types">
+        <item>类型</item>
+        <item>国道</item>
+        <item>省道</item>
+        <item>县道</item>
+        <item>乡道</item>
+        <item>专用公路</item>
+        <item>支持方式</item>
+    </string-array>
+</resources>

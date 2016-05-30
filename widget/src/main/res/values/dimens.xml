@@ -1,0 +1,68 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="text_medium_1">16.0sp</dimen>
+    <dimen name="text_very_small">12.0sp</dimen>
+
+    <!--app config start-->
+    <dimen name="titlebar_height">40dip</dimen>
+    <dimen name="titlebar_leftimagewidth">36dip</dimen>
+    <dimen name="titlebar_leftimageheight">36dip</dimen>
+    <dimen name="titlebar_rightimagewidth">30dip</dimen>
+    <dimen name="titlebar_rightimageheight">30dip</dimen>
+    <dimen name="addcar_height">48dip</dimen>
+    <dimen name="mainview_viewpagerheight">190dip</dimen>
+    <dimen name="mainview_listviewheight">100dip</dimen>
+    <dimen name="special_height">160dip</dimen>
+    <dimen name="divider_length">2dip</dimen>
+    <dimen name="griditemimgview_width">55dip</dimen>
+    <dimen name="griditemimgview_height">55dip</dimen>
+    <!--下拉筛选控件的高度-->
+    <dimen name="choosebar_height">48dip</dimen>
+    <!--listview 相关参数配置 start-->
+    <dimen name="listview_head_height">32dip</dimen>
+    <dimen name="listview_maintext_size">16sp</dimen>
+    <dimen name="listview_secondtext_size">12sp</dimen>
+    <dimen name="listview_thirdtext_size">18sp</dimen>
+    <!--listview 相关参数配置 end-->
+    <dimen name="special_main_textsize">16sp</dimen>
+    <dimen name="special_second_textsize">12sp</dimen>
+
+    <!--listviewitem相关参数start-->
+    <dimen name="listviewAllheight">100dip</dimen>
+    <dimen name="listitemImageHeight">80dip</dimen>
+    <dimen name="listitemImageWidth">100dip</dimen>
+    <!--listviewitem相关参数end-->
+
+    <!--servicedetail相关参数start-->
+    <dimen name="detail_head_height">220dp</dimen>
+    <dimen name="detail_head_img_height">170dp</dimen>
+    <dimen name="detail_head_bottom_height">50dp</dimen>
+
+    <dimen name="detail_main_textsize">18sp</dimen>
+    <dimen name="detail_second_textsize">15sp</dimen>
+    <!--servicedetail相关参数end-->
+
+    <!--servicedetail相关参数start-->
+    <dimen name="store_head_height">80dp</dimen>
+    <dimen name="store_head_img_width">100dp</dimen>
+    <dimen name="store_head_img_height">60dp</dimen>
+    <!--servicedetail相关参数end-->
+
+    <!--我的页面相关配置start-->
+    <dimen name="my_head_height">80dp</dimen>
+    <!--我的页面相关配置end-->
+    <!--app config end -->
+
+    <!-- fruiTabhost start-->
+    <dimen name="mth_tab_height">48dp</dimen>
+    <dimen name="mth_tab_indicator_height">2dp</dimen>
+    <dimen name="mth_tab_width_padding">12dp</dimen>
+    <dimen name="mth_tab_bottom_padding">16dp</dimen>
+    <dimen name="mth_tab_text_size">14sp</dimen>
+    <!-- 72 - fth_tab_width_padding(12) -->
+    <dimen name="mth_tab_left_offset">60dp</dimen>
+    <!-- fruitTabhost end-->
+</resources>

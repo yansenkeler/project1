@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.baidu.mapapi.map.TextureMapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="48dp">
+
+    </com.baidu.mapapi.map.TextureMapView>
+
+    <TextView
+        android:id="@+id/currentAddress"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:gravity="center"/>
+
+
+    <TextView
+        android:id="@+id/finish"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:text="确认"/>
+
+    <TextView
+        android:id="@+id/boo"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:id="@+id/pin"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/boo"
+        android:src="@drawable/pin"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/finish"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_white_btn">
+
+        <ImageView
+            android:id="@+id/location"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_my_location_grey600_48dp"/>
+
+    </FrameLayout>
+
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:background="@drawable/floating_progress_bg"
+        android:padding="8dp">
+
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:matProg_barWidth="4dp"
+            android:layout_gravity="center"
+            app:matProg_barColor="@color/white"
+            app:matProg_progressIndeterminate="true"/>
+
+        <TextView
+            android:id="@+id/hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font16"
+            android:text="正在定位..."/>
+    </LinearLayout>
+
+</RelativeLayout>

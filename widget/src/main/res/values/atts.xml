@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--普通的titlebar-->
+    <declare-styleable name="Topbar">
+        <attr name="titleText" format="string"></attr>
+        <attr name="titleTextSize" format="dimension"></attr>
+        <attr name="titleTextColor1" format="color"></attr>
+        <attr name="leftBackground" format="reference|color"></attr>
+        <attr name="leftText" format="string"></attr>
+        <attr name="leftTextColor" format="color"></attr>
+        <attr name="rightBackground" format="reference|color"></attr>
+        <attr name="rightText" format="string"></attr>
+        <attr name="rightTextColor" format="color"></attr>
+        <attr name="barBackground" format="color"></attr>
+    </declare-styleable>
+
+    <!--左右按钮是图片的topbar-->
+    <declare-styleable name="TopbarWithImage">
+        <attr name="topText" format="string"></attr>
+        <attr name="topTextColor" format="color"></attr>
+        <attr name="leftImage" format="reference|color"></attr>
+        <attr name="rightImage" format="reference|color"></attr>
+        <attr name="topbarBackground" format="color"></attr>
+    </declare-styleable>
+
+    <!--利用popwindow实现下拉列表-->
+    <declare-styleable name="PullChooseView">
+        <attr name="chooseTitle" format="string"></attr>
+        <attr name="chooseBackgound" format="color"></attr>
+    </declare-styleable>
+
+    <!--首页自定义listview, 包含head-->
+    <declare-styleable name="ListViewWithHead">
+        <attr name="listheadText" format="string"></attr>
+        <attr name="moreText" format="string"></attr>
+        <attr name="moreImg" format="reference|color"></attr>
+    </declare-styleable>
+
+    <!--首页特色服务定义的模块-->
+    <declare-styleable name="indicateview">
+        <attr name="indeicateview_text" format="string"></attr>
+        <attr name="indicateview_img" format="reference|color"></attr>
+    </declare-styleable>
+
+    <!--首页特色服务定义的模块-->
+    <declare-styleable name="modelview">
+        <attr name="firsttext" format="string"></attr>
+        <attr name="firsttextcolor" format="color"></attr>
+        <attr name="secondtext" format="string"></attr>
+        <attr name="secondtextcolor" format="color"></attr>
+        <attr name="img" format="reference|color"></attr>
+        <attr name="imgorientation" format="integer"></attr>
+        <attr name="besidemargin" format="integer"></attr>
+    </declare-styleable>
+
+    <!-- ViewPagerIndicator的配置文件-->
+    <declare-styleable name="ViewPagerIndicator">
+        <!-- Style of the circle indicator. -->
+        <attr name="vpiCirclePageIndicatorStyle" format="reference"/>
+        <!-- Style of the icon indicator's views. -->
+        <attr name="vpiIconPageIndicatorStyle" format="reference"/>
+        <!-- Style of the line indicator. -->
+        <attr name="vpiLinePageIndicatorStyle" format="reference"/>
+        <!-- Style of the title indicator. -->
+        <attr name="vpiTitlePageIndicatorStyle" format="reference"/>
+        <!-- Style of the tab indicator's tabs. -->
+        <attr name="vpiTabPageIndicatorStyle" format="reference"/>
+        <!-- Style of the underline indicator. -->
+        <attr name="vpiUnderlinePageIndicatorStyle" format="reference"/>
+    </declare-styleable>
+
+    <attr name="centered" format="boolean" />
+    <attr name="selectedColor" format="color" />
+    <attr name="strokeWidth" format="dimension" />
+    <attr name="unselectedColor" format="color" />
+
+    <declare-styleable name="CirclePageIndicator">
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="centered" />
+        <!-- Color of the filled circle that represents the current page. -->
+        <attr name="fillColor" format="color" />
+        <!-- Color of the filled circles that represents pages. -->
+        <attr name="pageColor" format="color" />
+        <!-- Orientation of the indicator. -->
+        <attr name="android:orientation"/>
+        <!-- Radius of the circles. This is also the spacing between circles. -->
+        <attr name="circleRadius" format="dimension" />
+        <!-- Whether or not the selected indicator snaps to the circles. -->
+        <attr name="snap" format="boolean" />
+        <!-- Color of the open circles. -->
+        <attr name="strokeColor" format="color" />
+        <!-- Width of the stroke used to draw the circles. -->
+        <attr name="strokeWidth" />
+        <!-- View background -->
+        <attr name="android:background"/>
+    </declare-styleable>
+
+    <declare-styleable name="LinePageIndicator">
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="centered" />
+        <!-- Color of the unselected lines that represent the pages. -->
+        <attr name="unselectedColor" />
+        <!-- Color of the selected line that represents the current page. -->
+        <attr name="selectedColor" />
+        <!-- Width of each indicator line. -->
+        <attr name="lineWidth" format="dimension" />
+        <!-- Width of each indicator line's stroke. -->
+        <attr name="strokeWidth" />
+        <!-- Width of the gap between each indicator line. -->
+        <attr name="gapWidth" format="dimension" />
+        <!-- View background -->
+        <attr name="android:background"/>
+    </declare-styleable>
+
+    <declare-styleable name="TitlePageIndicator">
+        <!-- Screen edge padding. -->
+        <attr name="clipPadding" format="dimension" />
+        <!-- Color of the footer line and indicator. -->
+        <attr name="footerColor" format="color" />
+        <!-- Height of the footer line. -->
+        <attr name="footerLineHeight" format="dimension" />
+        <!-- Style of the indicator. Default is triangle. -->
+        <attr name="footerIndicatorStyle">
+            <enum name="none" value="0" />
+            <enum name="triangle" value="1" />
+            <enum name="underline" value="2" />
+        </attr>
+        <!-- Height of the indicator above the footer line. -->
+        <attr name="footerIndicatorHeight" format="dimension" />
+        <!-- Left and right padding of the underline indicator. -->
+        <attr name="footerIndicatorUnderlinePadding" format="dimension" />
+        <!-- Padding between the bottom of the title and the footer. -->
+        <attr name="footerPadding" format="dimension" />
+        <!-- Position of the line. -->
+        <attr name="linePosition">
+            <enum name="bottom" value="0"/>
+            <enum name="top" value="1"/>
+        </attr>
+        <!-- Color of the selected title. -->
+        <attr name="selectedColor" />
+        <!-- Whether or not the selected item is displayed as bold. -->
+        <attr name="selectedBold" format="boolean" />
+        <!-- Color of regular titles. -->
+        <attr name="android:textColor" />
+        <!-- Size of title text. -->
+        <attr name="android:textSize" />
+        <!-- Padding between titles when bumping into each other. -->
+        <attr name="titlePadding" format="dimension" />
+        <!-- Padding between titles and the top of the View. -->
+        <attr name="topPadding" format="dimension" />
+        <!-- View background -->
+        <attr name="android:background"/>
+    </declare-styleable>
+
+    <declare-styleable name="UnderlinePageIndicator">
+        <!-- Whether or not the selected indicator fades. -->
+        <attr name="fades" format="boolean" />
+        <!-- Length of the delay to fade the indicator. -->
+        <attr name="fadeDelay" format="integer" />
+        <!-- Length of the indicator fade to transparent. -->
+        <attr name="fadeLength" format="integer" />
+        <!-- Color of the selected line that represents the current page. -->
+        <attr name="selectedColor" />
+        <!-- View background -->
+        <attr name="android:background"/>
+    </declare-styleable>
+
+    <!--自定义的stateview-->
+    <declare-styleable name="MultiStateView">
+        <attr name="msv_loadingView" format="reference" />
+        <attr name="msv_emptyView" format="reference" />
+        <attr name="msv_errorView" format="reference" />
+        <attr name="msv_viewState" format="enum">
+            <enum name="content" value="0" />
+            <enum name="error" value="1" />
+            <enum name="empty" value="2" />
+            <enum name="loading" value="3" />
+        </attr>
+    </declare-styleable>
+
+
+    <!-- slideswitch-->
+    <declare-styleable name="slideswitch">
+        <attr name="themeColor" format="color" />
+        <attr name="isOpen" format="boolean" />
+        <attr name="duration" format="integer"/>
+        <attr name="shape">
+            <enum name="rect" value="1" />
+            <enum name="circle" value="2" />
+        </attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="LoadingView">
+        <attr name="angel" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="ScrollView">
+        <attr name="viewColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="TagLayout">
+        <attr name="tagSpace" format="dimension"/>
+        <attr name="lineSpace" format="dimension"/>
+    </declare-styleable>
+
+    <!-- FruitTabHost-->
+    <declare-styleable name="FruitTabHost">
+        <attr name="colorText" format="color" />
+        <attr name="colorTextSelected" format="color"/>
+        <attr name="colorBgActived" format="color"/>
+        <attr name="colorTabBackground" format="color"/>
+        <attr name="colorTab" format="color" />
+    </declare-styleable>
+
+</resources>

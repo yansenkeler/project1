@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:src="@drawable/add"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        android:background="@drawable/add_photo_bg"/>
+
+    <FrameLayout
+        android:id="@+id/progress"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:matProg_barWidth="1dp"
+            app:matProg_barColor="@color/white"
+            app:matProg_progressIndeterminate="true"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font12"
+            android:text="上传中..."
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+</FrameLayout>

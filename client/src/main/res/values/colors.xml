@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_main">@android:color/holo_blue_dark</color>
+    <color name="colorPrimary">#ff3f51b5</color>
+    <color name="colorPrimaryDark">#ff303f9f</color>
+    <color name="colorAccent">#2196f3</color>
+
+    <color name="text_color_normal">#000000</color>
+
+    <color name="color_normal">#33ccee</color>
+    <color name="color_pressed">#33cccc</color>
+
+    <color name="color_tab_active">#1196db</color>
+    <color name="color_tab_normal">#8a8a8a</color>
+    <color name="color_black">#000000</color>
+</resources>

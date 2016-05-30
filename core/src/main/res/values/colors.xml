@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="orange">#ffff9c00</color>
+    <color name="light_gray">#ff999999</color>
+    <color name="text_color_gray">#ff878787</color>
+
+    <!--system start-->
+    <color name="theme_blue_text_normal">#ff0f90d2</color>
+    <color name="theme_blue_text_unfouced">#ff888888</color>
+    <color name="theme_backgoundcolor">#f0f0f0</color>
+
+    <color name="theme_blue_top_color">#0e91d2</color>
+    <color name="theme_blue_bottom_color">#fafafa</color>
+
+    <color name="searchbar_titlecolor">#a5c6df</color>
+    <color name="addcar_color">#676767</color>
+    <color name="addcar_backgoundcolor">#f0f0f0</color>
+
+    <color name="special_backgoundcolor">#f0f0f0</color>
+
+    <color name="listViewBackgoundcolor">#f0f0f0</color>
+
+    <color name="modelview1_color">#1bbbb2</color>
+    <color name="modelview2_color">#f16a62</color>
+    <color name="modelview3_color">#f29a6b</color>
+    <color name="modelview4_color">#50b018</color>
+    <color name="modelview_color">#979797</color>
+
+    <!--listview 相关参数配置 start-->
+    <color name="listview_main_color">#303030</color>
+    <color name="listview_second_color">#979797</color>
+    <color name="listview_third_color">#cf0101</color>
+    <!--listview 相关参数配置 end-->
+
+    <!--chooseview的颜色值start-->
+    <color name="chooseviewbackgound">#f0f0f0</color>
+    <color name="chooseviewTextNormalColor">#979797</color>
+    <color name="chooseviewTextFouceColor">#303030</color>
+    <color name="chooseviewdiverColor">#e1e1e1</color>
+    <!--chooseview的颜色值end-->
+    <color name="dark">#f1f1ec</color>
+    <color name="deep_dark">#dadad5</color>
+
+    <!--searchview background start-->
+    <color name="searchbackgroundcolor">#e1e1e1</color>
+    <color name="searchtextcolor">#979797</color>
+    <!--searchview background-->
+
+    <!--button start-->
+    <color name="button_blue_pressed">#0099cc</color>
+    <color name="button_blue_normal">#33b5e5</color>
+    <!--button end-->
+
+    <!--divider start-->
+    <color name="divider">#e1e1e1</color>
+    <!--divider end-->
+
+    <!--system end-->
+
+    <!-- pageindicator start-->
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
+    <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+    <!-- pageindicator end-->
+</resources>

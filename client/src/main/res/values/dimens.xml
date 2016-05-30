@@ -1,0 +1,49 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--different levels of font dimens-->
+    <dimen name="font10">10sp</dimen>
+    <dimen name="font12">12sp</dimen>
+    <dimen name="font14">14sp</dimen>
+    <dimen name="font16">16sp</dimen>
+    <dimen name="font18">18sp</dimen>
+    <dimen name="font20">20sp</dimen>
+    <dimen name="font22">22sp</dimen>
+    <dimen name="font24">24sp</dimen>
+    <dimen name="font26">26sp</dimen>
+    <dimen name="font28">28sp</dimen>
+    <dimen name="font30">30sp</dimen>
+
+    <!--dimens can be reused-->
+    <dimen name="rootview_horizontal_padding">16dp</dimen>
+    <dimen name="rootview_vertical_padding">16dp</dimen>
+
+    <dimen name="height_edittext">40dp</dimen>
+    <dimen name="height_edittext_layout">48dp</dimen>
+
+
+    <!--dimen levels between vertical layouts-->
+    <dimen name="vertical_margin_views_small">8dp</dimen>
+    <dimen name="vertical_margin_views_middle">12dp</dimen>
+    <dimen name="vertical_margin_views_big">16dp</dimen>
+
+    <dimen name="horizontal_margin_views_small">8dp</dimen>
+    <dimen name="horizontal_margin_views_middle">12dp</dimen>
+    <dimen name="horizontal_margin_views_big">16dp</dimen>
+    <dimen name="padding_vertical_input_layout">40dp</dimen>
+    <dimen name="padding_horizontal_input_layout">24dp</dimen>
+    <dimen name="height_input">40dp</dimen>
+    <dimen name="padding_horizontal_root_layout">16dp</dimen>
+    <dimen name="padding_vertical_root_layout">16dp</dimen>
+    <dimen name="height_button_query">24dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="popwindow_size">100dp</dimen>
+    <dimen name="margin_map_top">200dp</dimen>
+    <dimen name="text_view_height">40dp</dimen>
+    <dimen name="twenty">200dp</dimen>
+</resources>

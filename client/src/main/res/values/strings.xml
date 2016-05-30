@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">智能巡检</string>
+    <string name="titleA">AAA</string>
+    <string name="titleB">BBB</string>
+    <string name="account">账号</string>
+    <string name="your_account">您的账号</string>
+    <string name="password">密码</string>
+    <string name="hint_input_pwd">请输入密码</string>
+    <string name="rememberPwd">记住密码</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="open_drawer">open_drawer</string>
+    <string name="close_drawer">close_drawer</string>
+</resources>
