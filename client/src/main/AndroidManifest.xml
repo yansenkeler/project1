@@ -49,14 +49,14 @@
         </activity>
         <!-- 启动页-->
         <activity android:name="com.fruit.client.activity.SplashActivity">
-
-        </activity>
-
-        <activity android:name="com.fruit.client.activity.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+
+        <activity android:name="com.fruit.client.activity.TestActivity">
+
         </activity>
 
         <!-- 登录activity-->

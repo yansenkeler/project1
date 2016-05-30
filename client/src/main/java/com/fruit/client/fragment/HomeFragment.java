@@ -27,6 +27,7 @@ import com.fruit.baiduapi.util.BaiduLocationUtil;
 import com.fruit.client.MyApplication;
 import com.fruit.client.R;
 import com.fruit.client.activity.EventDetailEditActivity;
+import com.fruit.client.activity.TestActivity;
 import com.fruit.client.object.event.Event;
 import com.fruit.client.object.event.EventListResponse;
 import com.fruit.client.util.Constant;
@@ -77,7 +78,6 @@ public class HomeFragment extends FruitFragment implements BaiduMap.OnMapStatusC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle mBundle = getArguments();
-
     }
 
     @Nullable
@@ -173,8 +173,10 @@ public class HomeFragment extends FruitFragment implements BaiduMap.OnMapStatusC
     public void onFruitClick(int id) {
         switch (id){
             case R.id.location:
-                mMyApplication.setReceiveDataListener(this);
-                Locationor.getInstance(getActivity().getApplication()).startLocation();
+//                mMyApplication.setReceiveDataListener(this);
+//                Locationor.getInstance(getActivity().getApplication()).startLocation();
+                Intent intent = new Intent(getActivity(), TestActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
