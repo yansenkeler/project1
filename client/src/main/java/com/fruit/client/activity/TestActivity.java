@@ -5,6 +5,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
+import com.fruit.baiduapi.util.BaiduLocationUtil;
 import com.fruit.client.MyApplication;
 import com.fruit.client.R;
 
@@ -97,6 +98,14 @@ public class TestActivity extends FruitActivity implements BDLocationListener {
 
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
-//        locationor.updateLocation(mMapView, new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude()), 16);
+        final double lat = bdLocation.getLatitude();
+        final double lon = bdLocation.getLongitude();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                locationor.updateLocation(mMapView, new LatLng(lat, lon), 16);
+            }
+        }, 500);
+//        BaiduLocationUtil.updateLocation(mMapView, new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude()), 16);
     }
 }

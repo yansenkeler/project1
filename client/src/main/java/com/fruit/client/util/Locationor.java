@@ -11,6 +11,8 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.navisdk.adapter.BNRoutePlanNode;
+import com.baidu.platform.comapi.location.CoordinateType;
 
 /**
  * Created by user on 2016/4/27.
@@ -47,7 +49,7 @@ public class Locationor {
         if (!isOpenLocation){
             mClientOption.setIsNeedAddress(true);
             mClientOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-            mClientOption.setCoorType("bd09ll");
+            mClientOption.setCoorType(CoordinateType.BD09LL);
             mClientOption.setPriority(LocationClientOption.GpsFirst);
             mClientOption.setProdName("client");
             mClientOption.setOpenGps(true);

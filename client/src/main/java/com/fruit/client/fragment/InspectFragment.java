@@ -1,21 +1,28 @@
 package com.fruit.client.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import com.fruit.client.R;
 import com.fruit.client.activity.InspectNavigationActivity;
+import com.fruit.client.activity.PermissionsActivity;
 import com.fruit.client.adapter.RoutePlanAdapter;
 import com.fruit.client.object.RoutePlan;
 import com.fruit.client.object.RoutePoint;
 import com.fruit.client.object.event.Event;
 import com.fruit.client.util.Constant;
+import com.fruit.client.util.PermissionsChecker;
 import com.fruit.client.util.Urls;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +48,7 @@ import com.fruit.core.fragment.FruitFragment;
 import com.fruit.core.http.VolleyManager;
 
 import java.io.File;
+import java.security.Permissions;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -58,6 +66,7 @@ public class InspectFragment extends FruitFragment {
     private static final int TASK_QUERY_EVENT = 2;
     private static final int TASK_TASK_FINSIH = 3;
     private static final int REQUEST_NAVIGATE = 0;
+    private static final int REQUEST_CODE = 1;
 
     public static List<Activity> activityList = new ArrayList<>();
 
@@ -80,6 +89,18 @@ public class InspectFragment extends FruitFragment {
     private boolean isTimeSelected = false;
     private GregorianCalendar calendar;
 
+    private PermissionsChecker checker;
+    private String[] PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.PROCESS_OUTGOING_CALLS,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
     public InspectFragment(){}
 
     public static FruitFragment getInstance(){
@@ -98,6 +119,8 @@ public class InspectFragment extends FruitFragment {
         routePlen.add(routePlan);
         routePlanAdapter = new RoutePlanAdapter(routePlen, getActivity());
         calendar = new GregorianCalendar();
+
+        checker = new PermissionsChecker(getActivity());
     }
 
     @Nullable
@@ -290,15 +313,33 @@ public class InspectFragment extends FruitFragment {
                             event.setUserPhone(json.getString("userPhone"));
                             events.add(event);
                         }
-                        //跳转到诱导界面
+                        ToastUtil.showShort(getActivity(), "成功获取到事件列表");
+                        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                            if (checker.lacksPermissions(PERMISSIONS)) {
+                                startPermissionsActivity();
+                            }else {
+                                ToastUtil.showShort(getActivity(), "所需权限已全部获取");
+                            }
+                        }
                         if (BaiduNaviManager.isNaviInited()) {
                             routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
+                        }else {
+                            ToastUtil.showShort(getActivity(), "初始化失败，无法跳转到导航界面");
                         }
                     }else if (flag.equals("0001")){
                         hideProgressDialog();
                         ToastUtil.showShort(getActivity(), "没有查询到事件");
+                        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                            if (checker.lacksPermissions(PERMISSIONS)) {
+                                startPermissionsActivity();
+                            }else {
+                                ToastUtil.showShort(getActivity(), "所需权限已全部获取");
+                            }
+                        }
                         if (BaiduNaviManager.isNaviInited()) {
                             routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
+                        }else {
+                            ToastUtil.showShort(getActivity(), "初始化失败，无法跳转到导航界面");
                         }
                     }else {
                         hideProgressDialog();
@@ -322,6 +363,10 @@ public class InspectFragment extends FruitFragment {
             default:
                 break;
         }
+    }
+
+    private void startPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(getActivity(), REQUEST_CODE, PERMISSIONS);
     }
 
     @Override
@@ -398,22 +443,22 @@ public class InspectFragment extends FruitFragment {
 
                     @Override
                     public void run() {
-//                        Toast.makeText(getActivity(), authinfo, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), authinfo, Toast.LENGTH_LONG).show();
                     }
                 });
             }
 
             public void initSuccess() {
-//                Toast.makeText(getActivity(), "百度导航引擎初始化成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "百度导航引擎初始化成功", Toast.LENGTH_SHORT).show();
                 initSetting();
             }
 
             public void initStart() {
-//                Toast.makeText(getActivity(), "百度导航引擎初始化开始", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "百度导航引擎初始化开始", Toast.LENGTH_SHORT).show();
             }
 
             public void initFailed() {
-//                Toast.makeText(getActivity(), "百度导航引擎初始化失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "百度导航引擎初始化失败", Toast.LENGTH_SHORT).show();
             }
 
         },  null, ttsHandler, null);
@@ -438,6 +483,25 @@ public class InspectFragment extends FruitFragment {
                 case REQUEST_NAVIGATE:
                     notifyTaskFinished();
                     break;
+                case REQUEST_CODE:
+                    if (resultCode== PermissionsActivity.PERMISSIONS_DENIED){
+                        // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("注意")
+                                .setMessage("缺少主要权限, 应用无法运行，即将退出")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getActivity().finish();
+                                    }
+                                })
+                                .create()
+                                .show();
+                    }else if (resultCode==PermissionsActivity.PERMISSIONS_GRANTED){
+                        if (BaiduNaviManager.isNaviInited()) {
+                            routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
+                        }
+                    }
                 default:
                     break;
             }
@@ -496,7 +560,8 @@ public class InspectFragment extends FruitFragment {
 //            list.add(eNode);
 //            BaiduNaviManager.getInstance().launchNavigator(getActivity(), list, 1, true, new InspectRoutePlanListener(sNode));
 //        }
-        sort(bnRoutePlanNodes);
+//        sort(bnRoutePlanNodes);
+        ToastUtil.showShort(getActivity(), "开始跳转到导航界面");
         BaiduNaviManager.getInstance().launchNavigator(getActivity(), bnRoutePlanNodes, 1, true, new InspectRoutePlanListener(bnRoutePlanNodes.get(0)));
     }
 

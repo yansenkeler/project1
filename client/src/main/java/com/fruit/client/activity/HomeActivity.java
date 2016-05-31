@@ -1,9 +1,12 @@
 package com.fruit.client.activity;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import com.alibaba.fastjson.JSONArray;
+import com.baidu.android.common.logging.Log;
 import com.fruit.client.R;
 import com.fruit.client.fragment.EventFragment;
 import com.fruit.client.fragment.HomeFragment;
@@ -17,14 +20,18 @@ import com.fruit.client.util.Constant;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,6 +43,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.android.volley.VolleyError;
+import com.fruit.client.util.PermissionsChecker;
 import com.fruit.client.util.Urls;
 import com.fruit.common.file.FileUtil;
 import com.fruit.common.network.NetWorkUtil;
@@ -71,6 +79,9 @@ public class HomeActivity extends FruitActivity implements TabHost.OnTabChangeLi
     private static final int TASK_CONSERVATION_UNIT = 14;
     private static final int TASK_VERSION_UPDATE = 15;
 
+    private static final int ACCESS_FINE_LOCATION = 0;
+    private static final int REQUEST_CODE = 0;
+
     private String[] params = new String[]{"路线","标志","位置","支持方式", "其它", "护栏", "护栏类型",
             "计量单位", "处理情况", "处理类别", "车牌号", "路政项目", "路网项目", "养护项目", "养护单位"};
     private Map<String, ArrayList<Param>> mParams = new HashMap<>();
@@ -99,6 +110,18 @@ public class HomeActivity extends FruitActivity implements TabHost.OnTabChangeLi
     private String roleName;
     private boolean showAddEventBtn = true;
     private String hasInitial;
+
+    private PermissionsChecker checker;
+    private String[] PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.PROCESS_OUTGOING_CALLS,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +185,41 @@ public class HomeActivity extends FruitActivity implements TabHost.OnTabChangeLi
             mAddEvent.setVisibility(View.GONE);
         }
 
+        checker = new PermissionsChecker(this);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            if (checker.lacksPermissions(PERMISSIONS)) {
+                startPermissionsActivity();
+            }
+        }
+    }
+
+    private void startPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
+        if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
+            new AlertDialog.Builder(this)
+                    .setTitle("注意")
+                    .setMessage("缺少主要权限, 应用无法运行，即将退出")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            HomeActivity.this.finish();
+                        }
+                    })
+                    .create()
+                    .show();
+        }
     }
 
     @Override

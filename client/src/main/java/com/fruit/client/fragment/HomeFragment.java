@@ -1,11 +1,17 @@
 package com.fruit.client.fragment;
 
+import android.Manifest;
 import android.app.Application;
+import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v13.app.FragmentCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +33,7 @@ import com.fruit.baiduapi.util.BaiduLocationUtil;
 import com.fruit.client.MyApplication;
 import com.fruit.client.R;
 import com.fruit.client.activity.EventDetailEditActivity;
-import com.fruit.client.activity.TestActivity;
 import com.fruit.client.object.event.Event;
-import com.fruit.client.object.event.EventListResponse;
 import com.fruit.client.util.Constant;
 import com.fruit.client.util.Locationor;
 import com.fruit.client.util.Urls;
@@ -38,7 +42,6 @@ import com.fruit.common.ui.ToastUtil;
 import com.fruit.core.db.DBUtil;
 import com.fruit.core.fragment.FruitFragment;
 import com.fruit.core.http.VolleyManager;
-import com.fruit.widget.MultiStateView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +53,7 @@ import java.util.TimerTask;
  */
 public class HomeFragment extends FruitFragment implements BaiduMap.OnMapStatusChangeListener, MyApplication.OnReceiveData, BaiduMap.OnMarkerClickListener {
     private static final int TASK_GET_EVENTS = 0;
+    private static final int ACCESS_FINE_LOCATION = 0;
     private TextureMapView mMapView;
     private BaiduMap mBaiduMap;
     private BaiduLocationUtil mLocationUtil;
@@ -101,8 +105,7 @@ public class HomeFragment extends FruitFragment implements BaiduMap.OnMapStatusC
                 && tmpLongitude!=null && tmpLongitude.length()>0){
             double lastLatitude = Double.parseDouble(tmpLatitude);
             double lastLongitude = Double.parseDouble(tmpLongitude);
-            Locationor.getInstance(getActivity().getApplication()).
-                    updateLocation(mMapView, new LatLng(lastLatitude, lastLongitude), 16);
+//            Locationor.getInstance(getActivity().getApplication()).updateLocation(mMapView, new LatLng(lastLatitude, lastLongitude), 16);
         }
         mBaiduMap.setOnMarkerClickListener(this);
         locationBtn.setOnClickListener(this);
@@ -173,10 +176,10 @@ public class HomeFragment extends FruitFragment implements BaiduMap.OnMapStatusC
     public void onFruitClick(int id) {
         switch (id){
             case R.id.location:
-//                mMyApplication.setReceiveDataListener(this);
-//                Locationor.getInstance(getActivity().getApplication()).startLocation();
-                Intent intent = new Intent(getActivity(), TestActivity.class);
-                startActivity(intent);
+                mMyApplication.setReceiveDataListener(this);
+                Locationor.getInstance(getActivity().getApplication()).startLocation();
+//                Intent intent = new Intent(getActivity(), TestActivity.class);
+//                startActivity(intent);
                 break;
             default:
                 break;
@@ -288,9 +291,16 @@ public class HomeFragment extends FruitFragment implements BaiduMap.OnMapStatusC
         lat = latitude;
         lon = longitude;
         Locationor.getInstance(getActivity().getApplication()).updateLocation(mMapView, new LatLng(lat, lon), 16);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                BaiduLocationUtil.updateLocation(mMapView, new LatLng(lat, lon), 16);
+//            }
+//        }, 500);
+
         DBUtil.setConfigValue("last_location_latitude", lat+"");
         DBUtil.setConfigValue("last_location_longitude", lon+"");
-        addMyMarker(longitude, latitude);
+        addMyMarker(lat, lon);
     }
 
     private void addMyMarker(double latitude, double longitude) {
