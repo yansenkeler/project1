@@ -64,7 +64,7 @@ public class AddOtherActivity extends NaviActivity implements HttpUploadManager.
     private ImageView mImageView;
     private ProgressBar mProgressBar;
     private TextView currentAddress;
-    private TextView routeCodeText;
+//    private TextView routeCodeText;
 
     private ArrayList<String> mRoutes = new ArrayList<>();
     private ArrayList<String> mLocations = new ArrayList<>();
@@ -87,6 +87,7 @@ public class AddOtherActivity extends NaviActivity implements HttpUploadManager.
     private ScrollView mScrollView;
 
     private boolean valid = true;
+    private Spinner mRouteSpinner;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,8 +108,8 @@ public class AddOtherActivity extends NaviActivity implements HttpUploadManager.
         setLeftImageView(getResources().getDrawable(R.drawable.ic_keyboard_arrow_left_white_48dp));
         setActivityTitle("添加其他设施");
 
-        routeCodeText = (TextView)findViewById(R.id.text_route_code);
-//        mRouteSpinner = (Spinner)findViewById(R.id.spinner_routine);
+//        routeCodeText = (TextView)findViewById(R.id.text_route_code);
+        mRouteSpinner = (Spinner)findViewById(R.id.spin_route);
         mOtherSpinner = (Spinner)findViewById(R.id.spinner_singal);
         mLocationSpinner = (Spinner)findViewById(R.id.spinner_location);
         mSupportMethodSpinner = (Spinner)findViewById(R.id.spinner_support_method);
@@ -374,15 +375,19 @@ public class AddOtherActivity extends NaviActivity implements HttpUploadManager.
                         JSONArray jsonArray = jsonObject1.getJSONArray("result");
                         JSONObject jsonObject2 = jsonArray.getJSONObject(0);
                         String routeCodeValue = jsonObject2.getString("RouteCode");
-                        routeCodeText.setText(routeCodeValue);
+                        for (int i=0; i<mRoutes.size(); i++){
+                            if (mRoutes.get(i).equals(routeCodeValue)){
+                                mRouteSpinner.setSelection(i);
+                            }
+                        }
                         valid = true;
                     }else if (flag1.equals("0001")){
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        mRouteSpinner.setSelection(0);
                         ToastUtil.showShort(this, "你无法在此处添加其他设施");
                     }else {
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        mRouteSpinner.setSelection(0);
                         ToastUtil.showShort(this, "你无法在此处添加其他设施");
                     }
                 }
@@ -402,7 +407,7 @@ public class AddOtherActivity extends NaviActivity implements HttpUploadManager.
                 break;
             case TASK_GETROUTE:
                 valid = false;
-                routeCodeText.setText("查无此路线");
+                mRouteSpinner.setSelection(0);
                 ToastUtil.showShort(this, "你无法在此处添加其他设施");
                 break;
             default:
@@ -470,7 +475,7 @@ public class AddOtherActivity extends NaviActivity implements HttpUploadManager.
             }
             HashMap<String, String> params = new HashMap<>();
             params.put("type", "add");
-            params.put("routecode", routeCodeText.getText().toString().equals("查无此路线")?"":routeCodeText.getText().toString());
+            params.put("routecode", (String)mRouteSpinner.getSelectedItem());
             params.put("facilityname", (String)mOtherSpinner.getSelectedItem());
             params.put("location", (String)mLocationSpinner.getSelectedItem());
             params.put("supporttype", (String) mSupportMethodSpinner.getSelectedItem());

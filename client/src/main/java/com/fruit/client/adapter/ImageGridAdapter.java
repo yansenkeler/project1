@@ -5,6 +5,7 @@ import com.fruit.client.R;
 import com.fruit.client.object.ImageItem;
 import com.fruit.client.util.Urls;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,31 +33,23 @@ public class ImageGridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mImages.size()+1;
+        return mImages.size();
     }
 
     @Override
     public Object getItem(int position) {
-        if (position==mImages.size()){
-            return null;
-        }else {
-            return mImages.get(position);
-        }
+        return mImages.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        if (position==mImages.size()){
-            return position+1;
-        }else {
-            return position;
-        }
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v;
-        ImageView mImageView;
+        ImageItem imageItem = mImages.get(position);
         ViewHolder vh;
         if (convertView==null){
             vh = new ViewHolder();
@@ -79,10 +72,12 @@ public class ImageGridAdapter extends BaseAdapter {
         mParams1.width = mParams.width;
         mParams1.height = mParams.width;
         vh.mProgress.setLayoutParams(mParams1);
-        if (position==mImages.size()){
+        if (imageItem.isLast()){
             vh.mImageView.setImageResource(R.drawable.add);
             vh.mProgress.setVisibility(View.GONE);
+            Log.d("imagegrid", "添加按钮 "+position);
         }else {
+            Log.d("imagegrid", "图片 "+position);
             if (mImages.get(position).getBitmap()!=null){
                 vh.mImageView.setImageBitmap(mImages.get(position).getBitmap());
             }else {

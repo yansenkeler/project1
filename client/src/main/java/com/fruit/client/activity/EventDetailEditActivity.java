@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -187,6 +188,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
     private String uploadImageUrl = "AJAXReturnData/ImageUpload.ashx";
     private boolean isFromPictureSelect = false;
     private int delImgIndex = -1;
+    private ImageItem addImageBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,17 +333,48 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                ImageItem imageItem = imageItems.get(position);
                 if (!isUpload){
-                    if (position==imageItems.size()){
+                    if (position==imageItems.size()-1){
                         startPickImage();
-                    }else {
-                        showDialog("正在删除图片");
-                        String filePk = imageItems.get(position).getFilePk();
-                        deleteEventImageRequest(filePk, position);
-                        delImgIndex = position;
                     }
                 }else {
                     ToastUtil.showShort(EventDetailEditActivity.this, "等待上传完成");
                 }
+            }
+        });
+        mImageGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final int finalPosition = position;
+                if (!isUpload){
+                    if (position==imageItems.size()-1){
+
+                    }else {
+                        new AlertDialog.Builder(EventDetailEditActivity.this)
+                                .setTitle("删除图片")
+                                .setMessage("是否删除该图片?")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener(){
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        showDialog("正在删除图片");
+                                        String filePk = imageItems.get(finalPosition).getFilePk();
+                                        deleteEventImageRequest(filePk, finalPosition);
+                                        delImgIndex = finalPosition;
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .create()
+                                .show();
+                    }
+                }else {
+                    ToastUtil.showShort(EventDetailEditActivity.this, "等待上传完成");
+                }
+                return true;
             }
         });
 
@@ -460,7 +493,9 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
 //                    ImageCompassUtil.galleryAddPic(getActivity(), mCurrentPhotoPath);
                     Bitmap mBitmap = ImageCompassUtil.getSmallBitmap(mCurrentPhotoPath);
 //                    mImageView.setImageBitmap(mBitmap);
+                    imageItems.remove(imageItems.size()-1);
                     imageItems.add(new ImageItem(mBitmap, 0, null, null));
+                    imageItems.add(addImageBtn);
                     imageAdapter.notifyDataSetChanged();
                     isUpload = true;
                     resizeGridHeight();
@@ -478,7 +513,9 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                         if (mUri!=null){
                             String path = FileUtil.getImageAbsolutePath(this, mUri);
 //                            mImageView.setImageBitmap(ImageCompassUtil.getSmallBitmap(path));
+                            imageItems.remove(imageItems.size()-1);
                             imageItems.add(new ImageItem(ImageCompassUtil.getSmallBitmap(path), 0, null, null));
+                            imageItems.add(addImageBtn);
                             imageAdapter.notifyDataSetChanged();
                             isUpload = true;
                             resizeGridHeight();
@@ -863,10 +900,11 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                 ToastUtil.showShort(this, "选择的预期完成时间不能早于当前时间");
                 return false;
             }
-        }else {
-            ToastUtil.showShort(this, "请选择预计完成时间");
-            return false;
         }
+//        else {
+//            ToastUtil.showShort(this, "请选择预计完成时间");
+//            return false;
+//        }
         return true;
     }
 
@@ -944,7 +982,6 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         super.onResume();
         if (!isFromPictureSelect){
             getEventDetail();
-            imageItems.clear();
         }
     }
 
@@ -1021,6 +1058,18 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                     int year = date.getYear()+1900;
                     int month = date.getMonth();
                     int day = date.getDate();
+                    new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            estimateTimeText.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
+                            estimateTimeIsSelected = true;
+                            updateHourMinuteSelect();
+                        }
+                    }, year, month, day).show();
+                }else {
+                    int year = new Date().getYear()+1900;
+                    int month = new Date().getMonth();
+                    int day = new Date().getDate();
                     new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -1266,6 +1315,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         JSONArray jsonArray = jsonObject1.getJSONArray("list");
                         if (jsonArray!=null){
+                            imageItems.clear();
                             for(int i=0; i<jsonArray.size(); i++){
                                 JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                                 String imgUrl = jsonObject2.getString("Url");
@@ -1273,6 +1323,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                                 ImageItem imageItem = new ImageItem(null, 1, imgUrl, filePk);
                                 imageItems.add(imageItem);
                             }
+                            imageItems.add(addImageBtn);
                             imageAdapter.notifyDataSetChanged();
                             resizeGridHeight();
                         }
@@ -1537,7 +1588,11 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         mParams.put("unit", ((String) countUnitSpinner.getSelectedItem()).equals("空")?"":((String) countUnitSpinner.getSelectedItem()));
         mParams.put("processtype", ((String) dealStatusSpinner.getSelectedItem()).equals("空")?"":((String) dealStatusSpinner.getSelectedItem()));
         mParams.put("processdept", ((String) constructionSpinner.getSelectedItem()).equals("空")?"":((String) constructionSpinner.getSelectedItem()));
-        mParams.put("requendtime", estimateTimeText.getText().toString());
+        if (estimateTimeIsSelected){
+            mParams.put("requendtime", estimateTimeText.getText().toString());
+        }else {
+            mParams.put("requendtime", "");
+        }
         mParams.put("isprocess", mIsDeal.isChecked()?"true":"false");
         mParams.put("memo", mMemo.getText().toString());
         return mParams;
@@ -1558,6 +1613,9 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
             mTimes.add(i+":30");
         }
         mTimes.add("20:00");
+        addImageBtn = new ImageItem();
+        addImageBtn.setLast(true);
+        imageItems.add(addImageBtn);
     }
 
     private void initData(){
@@ -1663,7 +1721,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                 String msg = mObject.getString("msg");
                 if (responseCode==HttpUploadManager.UPLOAD_SUCCESS_CODE){
                     if (!mFlag.equals(Constant.UploadImageStatus.STATUS_SUCCESS)){
-                        imageItems.remove(imageItems.size()-1);
+                        imageItems.remove(imageItems.size()-2);
                         imageAdapter.notifyDataSetChanged();
                         ToastUtil.showShort(this, "上传图片失败:" + mFlag);
                     }else {
@@ -1678,7 +1736,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
 ////                        imageUrl = imgUrl;
 ////                            returnImgUrls.add(imgUrl);
 //                        }
-                        int index = imageItems.size()-1;
+                        int index = imageItems.size()-2;
                         ImageItem mItem = imageItems.get(index);
                         mItem.setUploadStatus(1);
                         mItem.setImgUrl(imgUrl);
@@ -1688,7 +1746,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                         ToastUtil.showShort(this, "上传图片成功");
                     }
                 }else {
-                    imageItems.remove(imageItems.size()-1);
+                    imageItems.remove(imageItems.size()-2);
                     imageAdapter.notifyDataSetChanged();
                     ToastUtil.showShort(this, "上传图片失败:"+msg);
                 }
@@ -1697,7 +1755,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
             }
             isUpload = false;
         }catch (Exception e){
-            imageItems.remove(imageItems.size()-1);
+            imageItems.remove(imageItems.size()-2);
             imageAdapter.notifyDataSetChanged();
             ToastUtil.showShort(this, "上传图片失败:"+e.getMessage());
             isUpload = false;

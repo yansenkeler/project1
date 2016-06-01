@@ -35,11 +35,11 @@ public class AddPileActivity extends NaviActivity implements View.OnClickListene
     private static final String managerUrl = "AJAXReturnData/Pile.ashx";
     private static final int TASK_ADD = 1;
     private static final int TASK_GETROUTE = 2;
-    //    private Spinner mSpinner;
+    private Spinner mSpinner;
     private EditText mMilePost, mPile, mMemo;
     private TextView mAdd;
     private TextView currentAddress;
-    private TextView routeCodeText;
+//    private TextView routeCodeText;
 
     private ArrayAdapter<String> mSpinnerAdapter;
     private ArrayList<String> mParams = new ArrayList<>();
@@ -66,18 +66,18 @@ public class AddPileActivity extends NaviActivity implements View.OnClickListene
         setActivityTitle("添加路桩");
         setLeftImageView(getResources().getDrawable(R.drawable.ic_keyboard_arrow_left_white_48dp));
 
-//        mSpinner = (Spinner)findViewById(R.id.spinner_routine);
+        mSpinner = (Spinner)findViewById(R.id.spin_route);
         mMilePost = (EditText)findViewById(R.id.edittext_milepost);
         mPile = (EditText)findViewById(R.id.edittext_pile);
         mMemo = (EditText)findViewById(R.id.edittext_memo);
         mAdd = (TextView)findViewById(R.id.textview_add);
         currentAddress = (TextView)findViewById(R.id.currentAddress);
-        routeCodeText = (TextView)findViewById(R.id.text_route_code);
+//        routeCodeText = (TextView)findViewById(R.id.text_route_code);
 
         currentAddress.setText("当前位置："+currentAddressString);
 
         mSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mParams);
-//        mSpinner.setAdapter(mSpinnerAdapter);
+        mSpinner.setAdapter(mSpinnerAdapter);
         mAdd.setOnClickListener(this);
 
         String lastPileRoute = DBUtil.getConfigValue("LastPileRoute");
@@ -173,15 +173,22 @@ public class AddPileActivity extends NaviActivity implements View.OnClickListene
                         JSONArray jsonArray = jsonObject1.getJSONArray("result");
                         JSONObject jsonObject2 = jsonArray.getJSONObject(0);
                         String routeCodeValue = jsonObject2.getString("RouteCode");
-                        routeCodeText.setText(routeCodeValue);
+//                        routeCodeText.setText(routeCodeValue);
+                        for (int i=0; i<mParams.size(); i++){
+                            if (mParams.get(i).equals(routeCodeValue)){
+                                mSpinner.setSelection(i);
+                            }
+                        }
                         valid = true;
                     }else if (flag.equals("0001")){
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        mSpinner.setSelection(0);
+//                        routeCodeText.setText("查无此路线");
                         ToastUtil.showShort(this, "你无法在此处添加路桩");
                     }else {
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        mSpinner.setSelection(0);
+//                        routeCodeText.setText("查无此路线");
                         ToastUtil.showShort(this, "你无法在此处添加路桩");
                     }
                 }
@@ -201,7 +208,7 @@ public class AddPileActivity extends NaviActivity implements View.OnClickListene
                 break;
             case TASK_GETROUTE:
                 valid = false;
-                routeCodeText.setText("查无此路线");
+                mSpinner.setSelection(0);
                 ToastUtil.showShort(this, "你无法在此处添加路桩");
                 break;
             default:
@@ -251,8 +258,8 @@ public class AddPileActivity extends NaviActivity implements View.OnClickListene
             String str = Constant.url + managerUrl;
             HashMap<String, String> mParams = new HashMap<>();
             mParams.put("type", "add");
-//            mParams.put("routecode", (String) mSpinner.getSelectedItem());
-            mParams.put("routecode", routeCodeText.getText().toString().equals("查无此路线")?"":routeCodeText.getText().toString());
+            mParams.put("routecode", (String) mSpinner.getSelectedItem());
+//            mParams.put("routecode", routeCodeText.getText().toString().equals("查无此路线")?"":routeCodeText.getText().toString());
             mParams.put("milepost", paramMilePost);
             mParams.put("pile", paramPile);
             mParams.put("memo", paramMemo);

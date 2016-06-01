@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -82,8 +83,8 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
     private TextView billNoText;
     private Spinner rankSpinner;
     private Spinner carNoSpinner;
-//    private Spinner routeSpinner;
-    private TextView routeCodeText;
+    private Spinner routeSpinner;
+//    private TextView routeCodeText;
     private EditText userNameEt;
     private Spinner directionSpinner;
     private Spinner typeSpinner;
@@ -140,6 +141,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
     private int deleteImgIndex = -1;
     private String currentAddress;
     private boolean valid = true;
+    private boolean hasAddBtn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,8 +163,8 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
         billNoText = (TextView)findViewById(R.id.bill_no);
         rankSpinner = (Spinner)findViewById(R.id.spin_rank);
         carNoSpinner = (Spinner) findViewById(R.id.spin_car_no);
-//        routeSpinner = (Spinner)findViewById(R.id.spin_route);
-        routeCodeText  = (TextView)findViewById(R.id.text_route_code);
+        routeSpinner = (Spinner)findViewById(R.id.spin_route);
+//        routeCodeText  = (TextView)findViewById(R.id.text_route_code);
         userNameEt = (EditText)findViewById(R.id.et_user_name);
         directionSpinner = (Spinner)findViewById(R.id.spin_direction);
         typeSpinner = (Spinner)findViewById(R.id.spin_type);
@@ -203,20 +205,51 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (!isUpload){
-                    if (position==mImageUrls.size()){
+                    if (position==mImageUrls.size()-1){
                         startPickImage();
                     }else {
-                        showDialog("正在删除图片");
-                        deleteEventImageRequest(mImageUrls.get(position).getFilePk(), position);
-                        deleteImgIndex = position;
                     }
                 }else {
                     ToastUtil.showShort(AddEventActivity.this, "等待上传完成");
                 }
             }
         });
+        mImageGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final int finalPosition = position;
+                if (!isUpload){
+                    if (position==mImageUrls.size()-1){
+                    }else {
+                        new AlertDialog.Builder(AddEventActivity.this)
+                                .setTitle("删除图片")
+                                .setMessage("是否删除该图片?")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener(){
 
-//        routeSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mRoutes));
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        showDialog("正在删除图片");
+                                        deleteEventImageRequest(mImageUrls.get(finalPosition).getFilePk(), finalPosition);
+                                        deleteImgIndex = finalPosition;
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .create()
+                                .show();
+                    }
+                }else {
+                    ToastUtil.showShort(AddEventActivity.this, "等待上传完成");
+                }
+                return true;
+            }
+        });
+
+        routeSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mRoutes));
         rankSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mGrades));
         directionSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDirections));
         carNoSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mCarNos));
@@ -290,6 +323,13 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
         super.onResume();
         getRouteCode();
         createBillNo();
+        if (!hasAddBtn){
+            ImageItem imageItem = new ImageItem();
+            imageItem.setLast(true);
+            mImageUrls.add(imageItem);
+            hasAddBtn = true;
+        }
+
     }
 
     private void initFixedData(){
@@ -476,14 +516,21 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                         JSONObject jsonObject2 = jsonArray.getJSONObject(0);
                         String routeCodeValue = jsonObject2.getString("RouteCode");
                         valid = true;
-                        routeCodeText.setText(routeCodeValue);
+                        for (int i=0; i<mRoutes.size(); i++){
+                            if (mRoutes.get(i).equals(routeCodeValue)){
+                                routeSpinner.setSelection(i);
+                            }
+                        }
+//                        routeCodeText.setText(routeCodeValue);
                     }else if (flag.equals("0001")){
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        routeSpinner.setSelection(0);
+//                        routeCodeText.setText("查无此路线");
                         ToastUtil.showShort(this, "你无法在此处添加事件");
                     }else {
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        routeSpinner.setSelection(0);
+//                        routeCodeText.setText("查无此路线");
                         ToastUtil.showShort(this, "你无法在此处添加事件");
                     }
                 }
@@ -522,7 +569,8 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                 break;
             case TASK_GETROUTE:
                 valid = false;
-                routeCodeText.setText("查无此路线");
+                routeSpinner.setSelection(0);
+//                routeCodeText.setText("查无此路线");
                 ToastUtil.showShort(this, "你无法在此处添加事件");
                 break;
             default:
@@ -584,7 +632,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
 //                    ImageCompassUtil.galleryAddPic(getActivity(), mCurrentPhotoPath);
                     Bitmap mBitmap = ImageCompassUtil.getSmallBitmap(mCurrentPhotoPath);
 //                    mImageView.setImageBitmap(mBitmap);
-                    mImageUrls.add(new ImageItem(mBitmap, 0, null, null));
+                    mImageUrls.add(mImageUrls.size()-1, new ImageItem(mBitmap, 0, null, null));
                     mAdapter.notifyDataSetChanged();
                     isUpload = true;
                     resizeGridHeight();
@@ -601,7 +649,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                         if (mUri!=null){
                             String path = FileUtil.getImageAbsolutePath(this, mUri);
 //                            mImageView.setImageBitmap(ImageCompassUtil.getSmallBitmap(path));
-                            mImageUrls.add(new ImageItem(ImageCompassUtil.getSmallBitmap(path), 0, null, null));
+                            mImageUrls.add(mImageUrls.size()-1, new ImageItem(ImageCompassUtil.getSmallBitmap(path), 0, null, null));
                             mAdapter.notifyDataSetChanged();
                             isUpload = true;
                             resizeGridHeight();
@@ -779,7 +827,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                         JSONObject mObject3 = mJSONArray.getJSONObject(1);
                         String imgUrl = mObject2.getString("imageUrl");
                         String imgPk = mObject3.getString("FilePK");
-                        int index = mImageUrls.size()-1;
+                        int index = mImageUrls.size()-2;
                         ImageItem mItem = mImageUrls.get(index);
                         mItem.setUploadStatus(1);
                         mItem.setImgUrl(imgUrl);
@@ -789,7 +837,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                         ToastUtil.showShort(this, "上传图片成功");
                     }
                 }else {
-                    mImageUrls.remove(mImageUrls.size()-1);
+                    mImageUrls.remove(mImageUrls.size()-2);
                     mAdapter.notifyDataSetChanged();
                     ToastUtil.showShort(this, "上传图片失败:"+msg);
                 }
@@ -855,8 +903,8 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
         mParams.put("billdate", dateParam);
         mParams.put("grade", (String) rankSpinner.getSelectedItem());
         mParams.put("carno", ((String) carNoSpinner.getSelectedItem()).equals("空")?"":((String) carNoSpinner.getSelectedItem()));
-        mParams.put("routecode", routeCodeText.getText().toString().equals("查无此路线")?"":routeCodeText.getText().toString());
-//        mParams.put("routecode", ((String) routeSpinner.getSelectedItem()).equals("空")?"":((String) routeSpinner.getSelectedItem()));
+//        mParams.put("routecode", routeCodeText.getText().toString().equals("查无此路线")?"":routeCodeText.getText().toString());
+        mParams.put("routecode", ((String) routeSpinner.getSelectedItem()).equals("空")?"":((String) routeSpinner.getSelectedItem()));
         mParams.put("username", mUserName.getText().toString());
         mParams.put("userphone", mUserPhone.getText().toString());
         mParams.put("direction", (String) directionSpinner.getSelectedItem());
@@ -902,11 +950,12 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                 hideProgressDialog();
                 return;
             }
-        }else{
-            ToastUtil.showShort(this, "选择预计完成时间");
-            hideProgressDialog();
-            return;
         }
+//        else{
+//            ToastUtil.showShort(this, "选择预计完成时间");
+//            hideProgressDialog();
+//            return;
+//        }
         mParams.put("isprocess", mIsDeal.isChecked()?"true":"false");
         mParams.put("memo", mMemo.getText().toString());
         String requestBody = NetWorkUtil.appendParameter(Constant.url, mParams);

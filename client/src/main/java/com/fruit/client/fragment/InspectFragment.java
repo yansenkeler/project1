@@ -121,6 +121,13 @@ public class InspectFragment extends FruitFragment {
         calendar = new GregorianCalendar();
 
         checker = new PermissionsChecker(getActivity());
+//        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+//            if (checker.lacksPermissions(PERMISSIONS)) {
+//                startPermissionsActivity();
+//            }else {
+//                ToastUtil.showShort(getActivity(), "所需权限已全部获取");
+//            }
+//        }
     }
 
     @Nullable
@@ -314,13 +321,6 @@ public class InspectFragment extends FruitFragment {
                             events.add(event);
                         }
                         ToastUtil.showShort(getActivity(), "成功获取到事件列表");
-                        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                            if (checker.lacksPermissions(PERMISSIONS)) {
-                                startPermissionsActivity();
-                            }else {
-                                ToastUtil.showShort(getActivity(), "所需权限已全部获取");
-                            }
-                        }
                         if (BaiduNaviManager.isNaviInited()) {
                             routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
                         }else {
@@ -329,13 +329,6 @@ public class InspectFragment extends FruitFragment {
                     }else if (flag.equals("0001")){
                         hideProgressDialog();
                         ToastUtil.showShort(getActivity(), "没有查询到事件");
-                        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                            if (checker.lacksPermissions(PERMISSIONS)) {
-                                startPermissionsActivity();
-                            }else {
-                                ToastUtil.showShort(getActivity(), "所需权限已全部获取");
-                            }
-                        }
                         if (BaiduNaviManager.isNaviInited()) {
                             routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
                         }else {

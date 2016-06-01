@@ -62,7 +62,7 @@ public class AddFenceActivity extends NaviActivity implements HttpUploadManager.
     private EditText length, desc;
     private ImageView image;
     private TextView selectDestination, submit;
-    private TextView routeCodeText;
+//    private TextView routeCodeText;
 
     private double startLat, startLon, endLat, endLon;
     private String startAddressValue, endAddressValue;
@@ -74,6 +74,7 @@ public class AddFenceActivity extends NaviActivity implements HttpUploadManager.
     private String imagePath1, imagePath2, returnImagePath;
 
     private boolean valid = true;
+    private Spinner routeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +93,8 @@ public class AddFenceActivity extends NaviActivity implements HttpUploadManager.
         setLeftImageView(getResources().getDrawable(R.drawable.ic_keyboard_arrow_left_white_48dp));
         startAddress = (TextView)findViewById(R.id.start_address);
         endAddress = (TextView)findViewById(R.id.end_address);
-        routeCodeText = (TextView)findViewById(R.id.text_route_code);
-//        routeSpinner = (Spinner)findViewById(R.id.spinner_routine);
+//        routeCodeText = (TextView)findViewById(R.id.text_route_code);
+        routeSpinner = (Spinner)findViewById(R.id.spin_route);
         nameSpinner = (Spinner)findViewById(R.id.spinner_fence);
         locationSpinner = (Spinner)findViewById(R.id.spinner_location);
         typeSpinner = (Spinner)findViewById(R.id.spinner_fence_type);
@@ -397,7 +398,7 @@ public class AddFenceActivity extends NaviActivity implements HttpUploadManager.
             }
             HashMap<String, String> params = new HashMap<>();
             params.put("type", "add");
-            params.put("routecode", routeCodeText.getText().toString().equals("查无此路线")?"":routeCodeText.getText().toString());
+            params.put("routecode", (String)routeSpinner.getSelectedItem());
             params.put("facilityname", (String)nameSpinner.getSelectedItem());
             params.put("location", (String)locationSpinner.getSelectedItem());
             params.put("fencetype", (String)typeSpinner.getSelectedItem());
@@ -438,15 +439,19 @@ public class AddFenceActivity extends NaviActivity implements HttpUploadManager.
                         JSONArray jsonArray = jsonObject1.getJSONArray("result");
                         JSONObject jsonObject2 = jsonArray.getJSONObject(0);
                         String routeCodeValue = jsonObject2.getString("RouteCode");
-                        routeCodeText.setText(routeCodeValue);
+                        for (int i=0; i<mRoutes.size(); i++){
+                            if (mRoutes.get(i).equals(routeCodeValue)){
+                                routeSpinner.setSelection(i);
+                            }
+                        }
                         valid = true;
                     }else if (flag1.equals("0001")){
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        routeSpinner.setSelection(0);
                         ToastUtil.showShort(this, "你无法在此处添加栏杆");
                     }else {
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        routeSpinner.setSelection(0);
                         ToastUtil.showShort(this, "你无法在此处添加栏杆");
                     }
                 }
@@ -466,7 +471,7 @@ public class AddFenceActivity extends NaviActivity implements HttpUploadManager.
                 break;
             case TASK_GETROUTE:
                 valid = false;
-                routeCodeText.setText("查无此路线");
+                routeSpinner.setSelection(0);
                 ToastUtil.showShort(this, "你无法在此处添加栏杆");
                 break;
             default:

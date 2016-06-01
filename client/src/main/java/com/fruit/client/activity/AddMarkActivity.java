@@ -64,7 +64,7 @@ public class AddMarkActivity extends NaviActivity implements HttpUploadManager.O
     private ImageView mImageView;
     private ProgressBar mProgressBar;
     private TextView currentAddress;
-    private TextView routeCodeText;
+//    private TextView routeCodeText;
 
     private ArrayList<String> mRoutes = new ArrayList<>();
     private ArrayList<String> mLocations = new ArrayList<>();
@@ -84,6 +84,7 @@ public class AddMarkActivity extends NaviActivity implements HttpUploadManager.O
     private ScrollView mScrollView;
 
     private boolean valid = true;
+    private Spinner mRouteSpinner;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,8 +105,8 @@ public class AddMarkActivity extends NaviActivity implements HttpUploadManager.O
         setActivityTitle("添加设施");
         setLeftImageView(getResources().getDrawable(R.drawable.ic_keyboard_arrow_left_white_48dp));
 
-        routeCodeText = (TextView)findViewById(R.id.text_route_code);
-//        mRouteSpinner = (Spinner)findViewById(R.id.spinner_routine);
+//        routeCodeText = (TextView)findViewById(R.id.text_route_code);
+        mRouteSpinner = (Spinner)findViewById(R.id.spin_route);
         mSingalSpinner = (Spinner)findViewById(R.id.spinner_singal);
         mLocationSpinner = (Spinner)findViewById(R.id.spinner_location);
         mSupportMethodSpinner = (Spinner)findViewById(R.id.spinner_support_method);
@@ -124,7 +125,7 @@ public class AddMarkActivity extends NaviActivity implements HttpUploadManager.O
         mImageView.setOnClickListener(this);
         mAdd.setOnClickListener(this);
 
-//        mRouteSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mRoutes));
+        mRouteSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mRoutes));
         mSingalSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mSingals));
         mLocationSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mLocations));
         mSupportMethodSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mSupportMethods));
@@ -358,14 +359,18 @@ public class AddMarkActivity extends NaviActivity implements HttpUploadManager.O
                         JSONObject jsonObject2 = jsonArray.getJSONObject(0);
                         String routeCodeValue = jsonObject2.getString("RouteCode");
                         valid = true;
-                        routeCodeText.setText(routeCodeValue);
+                        for (int i=0; i<mRoutes.size(); i++){
+                            if (mRoutes.get(i).equals(routeCodeValue)){
+                                mRouteSpinner.setSelection(i);
+                            }
+                        }
                     }else if (flag1.equals("0001")){
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        mRouteSpinner.setSelection(0);
                         ToastUtil.showShort(this, "你无法在此处添加标志");
                     }else {
                         valid = false;
-                        routeCodeText.setText("查无此路线");
+                        mRouteSpinner.setSelection(0);
                         ToastUtil.showShort(this, "你无法在此处添加标志");
                     }
                 }
@@ -385,7 +390,7 @@ public class AddMarkActivity extends NaviActivity implements HttpUploadManager.O
                 break;
             case TASK_GETROUTE:
                 valid = false;
-                routeCodeText.setText("查无此路线");
+                mRouteSpinner.setSelection(0);
                 ToastUtil.showShort(this, "你无法在此处添加标志");
                 break;
             default:
@@ -468,8 +473,8 @@ public class AddMarkActivity extends NaviActivity implements HttpUploadManager.O
             }
             HashMap<String, String> params = new HashMap<>();
             params.put("type", "add");
-//            params.put("routecode", (String)mRouteSpinner.getSelectedItem());
-            params.put("routecode", routeCodeText.getText().toString().equals("查无此路线")?"":routeCodeText.getText().toString());
+            params.put("routecode", (String)mRouteSpinner.getSelectedItem());
+//            params.put("routecode", routeCodeText.getText().toString().equals("查无此路线")?"":routeCodeText.getText().toString());
             params.put("facilityname", (String)mSingalSpinner.getSelectedItem());
             params.put("location", (String)mLocationSpinner.getSelectedItem());
             params.put("supporttype", (String)mSupportMethodSpinner.getSelectedItem());

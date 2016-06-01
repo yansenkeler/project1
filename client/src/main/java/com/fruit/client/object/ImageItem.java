@@ -10,6 +10,7 @@ public class ImageItem {
     private int uploadStatus;
     private String imgUrl;
     private String filePk;
+    private boolean isLast = false;
 
     public ImageItem() {
     }
@@ -20,6 +21,22 @@ public class ImageItem {
         this.uploadStatus = uploadStatus;
         this.imgUrl = imgUrl;
         this.filePk = filePk;
+    }
+
+    public Bitmap getmBitmap() {
+        return mBitmap;
+    }
+
+    public void setmBitmap(Bitmap mBitmap) {
+        this.mBitmap = mBitmap;
+    }
+
+    public boolean isLast() {
+        return isLast;
+    }
+
+    public void setLast(boolean last) {
+        isLast = last;
     }
 
     public String getImgUrl() {
