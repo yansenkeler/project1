@@ -208,6 +208,13 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                     if (position==mImageUrls.size()-1){
                         startPickImage();
                     }else {
+                        Intent intent1 = new Intent(AddEventActivity.this, BigImageActivity.class);
+                        intent1.putExtra("currentIndex", position);
+                        ImageItem addImageBtn = mImageUrls.get(mImageUrls.size()-1);
+                        mImageUrls.remove(mImageUrls.size()-1);
+                        intent1.putExtra("imageitems", mImageUrls);
+                        AddEventActivity.this.startActivity(intent1);
+                        mImageUrls.add(addImageBtn);
                     }
                 }else {
                     ToastUtil.showShort(AddEventActivity.this, "等待上传完成");
@@ -817,7 +824,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                 String msg = mObject.getString("msg");
                 if (responseCode==HttpUploadManager.UPLOAD_SUCCESS_CODE){
                     if (!mFlag.equals(Constant.UploadImageStatus.STATUS_SUCCESS)){
-                        mImageUrls.remove(mImageUrls.size()-1);
+                        mImageUrls.remove(mImageUrls.size()-2);
                         mAdapter.notifyDataSetChanged();
                         ToastUtil.showShort(this, "上传图片失败:serverResponseCode:" + mFlag);
                     }else {
@@ -846,7 +853,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
             }
             isUpload = false;
         }catch (Exception e){
-            mImageUrls.remove(mImageUrls.size()-1);
+            mImageUrls.remove(mImageUrls.size()-2);
             mAdapter.notifyDataSetChanged();
             ToastUtil.showShort(this, "上传图片失败:"+e.getMessage());
             isUpload = false;

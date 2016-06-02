@@ -1,11 +1,13 @@
 package com.fruit.client.object;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by user on 2016/4/29.
  */
-public class ImageItem {
+public class ImageItem implements Parcelable{
     private Bitmap mBitmap;
     private int uploadStatus;
     private String imgUrl;
@@ -22,6 +24,26 @@ public class ImageItem {
         this.imgUrl = imgUrl;
         this.filePk = filePk;
     }
+
+    protected ImageItem(Parcel in) {
+        mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
+        uploadStatus = in.readInt();
+        imgUrl = in.readString();
+        filePk = in.readString();
+        isLast = in.readByte() != 0;
+    }
+
+    public static final Creator<ImageItem> CREATOR = new Creator<ImageItem>() {
+        @Override
+        public ImageItem createFromParcel(Parcel in) {
+            return new ImageItem(in);
+        }
+
+        @Override
+        public ImageItem[] newArray(int size) {
+            return new ImageItem[size];
+        }
+    };
 
     public Bitmap getmBitmap() {
         return mBitmap;
@@ -69,5 +91,19 @@ public class ImageItem {
 
     public void setUploadStatus(int mUploadStatus) {
         uploadStatus = mUploadStatus;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(mBitmap, flags);
+        dest.writeInt(uploadStatus);
+        dest.writeString(imgUrl);
+        dest.writeString(filePk);
+        dest.writeByte((byte) (isLast ? 1 : 0));
     }
 }

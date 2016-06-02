@@ -320,7 +320,7 @@ public class InspectFragment extends FruitFragment {
                             event.setUserPhone(json.getString("userPhone"));
                             events.add(event);
                         }
-                        ToastUtil.showShort(getActivity(), "成功获取到事件列表");
+//                        ToastUtil.showShort(getActivity(), "成功获取到事件列表");
                         if (BaiduNaviManager.isNaviInited()) {
                             routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
                         }else {
@@ -428,7 +428,7 @@ public class InspectFragment extends FruitFragment {
 
                         @Override
                         public void run() {
-                        Toast.makeText(getActivity(), authinfo, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), authinfo, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -436,22 +436,22 @@ public class InspectFragment extends FruitFragment {
 
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), authinfo, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), authinfo, Toast.LENGTH_LONG).show();
                     }
                 });
             }
 
             public void initSuccess() {
-                Toast.makeText(getActivity(), "百度导航引擎初始化成功", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "百度导航引擎初始化成功", Toast.LENGTH_SHORT).show();
                 initSetting();
             }
 
             public void initStart() {
-                Toast.makeText(getActivity(), "百度导航引擎初始化开始", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "百度导航引擎初始化开始", Toast.LENGTH_SHORT).show();
             }
 
             public void initFailed() {
-                Toast.makeText(getActivity(), "百度导航引擎初始化失败", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "百度导航引擎初始化失败", Toast.LENGTH_SHORT).show();
             }
 
         },  null, ttsHandler, null);
@@ -554,7 +554,6 @@ public class InspectFragment extends FruitFragment {
 //            BaiduNaviManager.getInstance().launchNavigator(getActivity(), list, 1, true, new InspectRoutePlanListener(sNode));
 //        }
 //        sort(bnRoutePlanNodes);
-        ToastUtil.showShort(getActivity(), "开始跳转到导航界面");
         BaiduNaviManager.getInstance().launchNavigator(getActivity(), bnRoutePlanNodes, 1, true, new InspectRoutePlanListener(bnRoutePlanNodes.get(0)));
     }
 

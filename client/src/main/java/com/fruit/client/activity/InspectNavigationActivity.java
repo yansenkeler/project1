@@ -283,20 +283,11 @@ public class InspectNavigationActivity extends Activity implements MyApplication
             Event event = events.get(i);
             double lat = Double.parseDouble(event.getLat());
             double lon = Double.parseDouble(event.getLon());
-            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-//                LatLng gcjLatLng = LonLatUtil.bd_decrypt(lat, lon);
-//                Log.d("event_lat_lon", "百度坐标："+lon+" "+lat+" ;国测局坐标："+gcjLatLng.longitude+" "+gcjLatLng.latitude);
-                CustomizedLayerItem item = new CustomizedLayerItem(lon, lat, CoordinateType.GCJ02,
-                        getResources().getDrawable(R.drawable.blue_ic_icon_track_map_bar), CustomizedLayerItem.ALIGN_CENTER);
-                items.add(item);
-            }else {
-                LatLng gcjLatLng = LonLatUtil.bd_decrypt(lat, lon);
-                Log.d("event_lat_lon", "百度坐标："+lon+" "+lat+" ;国测局坐标："+gcjLatLng.longitude+" "+gcjLatLng.latitude);
-                CustomizedLayerItem item = new CustomizedLayerItem(gcjLatLng.longitude, gcjLatLng.latitude, CoordinateType.GCJ02,
-                        getResources().getDrawable(R.drawable.blue_ic_icon_track_map_bar), CustomizedLayerItem.ALIGN_CENTER);
-                items.add(item);
-            }
-
+            LatLng gcjLatLng = LonLatUtil.bd_decrypt(lat, lon);
+            Log.d("event_lat_lon", "百度坐标："+lon+" "+lat+" ;国测局坐标："+gcjLatLng.longitude+" "+gcjLatLng.latitude);
+            CustomizedLayerItem item = new CustomizedLayerItem(gcjLatLng.longitude, gcjLatLng.latitude, CoordinateType.GCJ02,
+                    getResources().getDrawable(R.drawable.blue_ic_icon_track_map_bar), CustomizedLayerItem.ALIGN_CENTER);
+            items.add(item);
         }
         BNRouteGuideManager.getInstance().setCustomizedLayerItems(items);
         BNRouteGuideManager.getInstance().showCustomizedLayer(true);
@@ -319,7 +310,7 @@ public class InspectNavigationActivity extends Activity implements MyApplication
                         BNRouteGuideManager.getInstance().resetEndNodeInNavi(
                                 new BNRoutePlanNode(116.21142, 40.85087, "百度大厦11", null, CoordinateType.GCJ02));
                     }
-                };
+                }
             };
         }
     }

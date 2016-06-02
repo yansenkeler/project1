@@ -8,10 +8,10 @@ import com.baidu.mapapi.model.LatLng;
 public class LonLatUtil {
     private static double lat = 31.22997;
     private static double lon = 121.640756;
-    public static double x_pi = lat * lon / 180.0;
+    public static double x_pi = Math.PI * 3000.0 / 180.0;
 
     public static double getDistanceFromXtoY(double lonX, double latX, double lonY, double latY){
-        double pk = 180 / 3.14169;
+        double pk = 180 / Math.PI;
         double a1 = latX / pk;
         double a2 = lonX / pk;
         double b1 = latY / pk;

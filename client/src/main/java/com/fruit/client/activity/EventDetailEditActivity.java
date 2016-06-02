@@ -335,6 +335,13 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                 if (!isUpload){
                     if (position==imageItems.size()-1){
                         startPickImage();
+                    }else {
+                        Intent intent1 = new Intent(EventDetailEditActivity.this, BigImageActivity.class);
+                        intent1.putExtra("currentIndex", position);
+                        imageItems.remove(imageItems.size()-1);
+                        intent1.putExtra("imageitems", imageItems);
+                        EventDetailEditActivity.this.startActivity(intent1);
+                        imageItems.add(addImageBtn);
                     }
                 }else {
                     ToastUtil.showShort(EventDetailEditActivity.this, "等待上传完成");
@@ -589,7 +596,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
     }
 
     private void resizeGridHeight(){
-        int lines = imageItems.size()/4+1;
+        int lines = (imageItems.size()-1)/4+1;
         WindowManager mManager = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics mMetrics = new DisplayMetrics();
         mManager.getDefaultDisplay().getMetrics(mMetrics);

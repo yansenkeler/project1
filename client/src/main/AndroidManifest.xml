@@ -101,6 +101,7 @@
         <activity android:name=".activity.MonitorActivity"></activity>
 
         <activity android:name=".activity.PermissionsActivity"></activity>
+        <activity android:name=".activity.BigImageActivity"></activity>
 
         <service
             android:name="com.fruit.client.service.UpdateService"
