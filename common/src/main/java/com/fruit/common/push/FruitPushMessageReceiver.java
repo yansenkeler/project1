@@ -19,7 +19,7 @@ public class FruitPushMessageReceiver extends PushMessageReceiver {
         String responseString = "onBind errorCode=" + errorCode + " appid="
                 + appid + " userId=" + userId + " channelId=" + channelId
                 + "requestId=" + requestId;
-        Log.d(D, responseString);
+//        Log.d(D, responseString);
     }
 
     @Override

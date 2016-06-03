@@ -6,11 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.fruit.client.R;
@@ -28,17 +24,17 @@ public class BigImageActivity extends FruitActivity {
 
     private ViewPager mViewPager;
     private ImageView close;
-    private ArrayList<ImageItem> imageItems = new ArrayList<>();
+    private ArrayList<String> imageUrls = new ArrayList<>();
     private ArrayList<BigImageFragment> fragments = new ArrayList<>();
-    private int currentIndex;
+    private int currentIndex = 0;
     private ImagePagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent mIntent = getIntent();
-        if (mIntent!=null){
+        if (mIntent!=null && mIntent.hasExtra("currentIndex") && mIntent.hasExtra("imageurls")){
             currentIndex = mIntent.getIntExtra("currentIndex", -1);
-            imageItems = mIntent.getParcelableArrayListExtra("imageitems");
+            imageUrls = mIntent.getStringArrayListExtra("imageurls");
         }else {
             return;
         }
@@ -59,21 +55,10 @@ public class BigImageActivity extends FruitActivity {
     }
 
     private void initFragment() {
-        for (int i=0; i<imageItems.size(); i++){
-            BigImageFragment fragment = BigImageFragment.newInstance(imageItems.get(i).getImgUrl());
+        for (int i=0; i<imageUrls.size(); i++){
+            BigImageFragment fragment = BigImageFragment.newInstance(imageUrls.get(i));
             fragments.add(fragment);
         }
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onBackPressed(){
-        super.onBackPressed();
     }
 
     class ImagePagerAdapter extends FragmentStatePagerAdapter{
@@ -89,7 +74,7 @@ public class BigImageActivity extends FruitActivity {
 
         @Override
         public int getCount() {
-            return imageItems.size();
+            return imageUrls.size();
         }
     }
 }

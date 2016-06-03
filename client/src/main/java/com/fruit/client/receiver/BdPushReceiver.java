@@ -23,12 +23,9 @@ public class BdPushReceiver  extends FruitPushMessageReceiver{
     public void onBind(Context context, int errorCode, String appid, String userId, String channelId, String requestId) {
         super.onBind(context, errorCode, appid, userId, channelId, requestId);
         Log.d(D, "errorCode-" + errorCode + ";appid-" + appid + ";userId-" + userId + ";channelId-" + channelId + ";requestId-" + requestId);
-        String channelSaved = DBUtil.getConfigValue("channelId");
-        if (errorCode!=0){
-            ToastUtil.showShort(context, "无法获得channelid");
-        }
-        if (channelSaved.length()==0 && channelId!=null){
+        if (errorCode==0){
             DBUtil.setConfigValue("channelId", channelId);
+            Log.d("channelid", "bind success channelid: "+DBUtil.getConfigValue("channelId"));
         }
     }
 

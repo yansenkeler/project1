@@ -182,13 +182,14 @@ public class LoginActivity extends BaseActivity {
             DBUtil.setConfigValue("dept_pk", deptPk!=null?deptPk:"");
             DBUtil.setConfigValue("real_name", realName!=null?realName:"");
             channelIdValue = DBUtil.getConfigValue("channelId");
+            Log.d("channelid", "login success channelid: "+channelIdValue);
             if (channelIdValue!=null && channelIdValue.length()>0){
                 pushServiceInitialSuccess = true;
             }else {
                 pushServiceInitialSuccess = false;
             }
             if (!pushServiceInitialSuccess){
-                ToastUtil.showShort(this, "登陆成功，但是可能无法接收到推送");
+//                ToastUtil.showShort(this, "登陆成功，但是可能无法接收到推送");
             }
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);

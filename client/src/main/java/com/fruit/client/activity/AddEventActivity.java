@@ -108,6 +108,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
 
     private GregorianCalendar mCalendar;
     private ArrayList<ImageItem> mImageUrls = new ArrayList<>();
+    private ArrayList<String> returnImageUrls = new ArrayList<>();
     private ImageGridAdapter mAdapter;
     private String mCurrentPhotoPath;
     private String mCurrentUploadPhotoPath;
@@ -210,11 +211,14 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                     }else {
                         Intent intent1 = new Intent(AddEventActivity.this, BigImageActivity.class);
                         intent1.putExtra("currentIndex", position);
-                        ImageItem addImageBtn = mImageUrls.get(mImageUrls.size()-1);
-                        mImageUrls.remove(mImageUrls.size()-1);
-                        intent1.putExtra("imageitems", mImageUrls);
+                        returnImageUrls.clear();
+                        for (ImageItem imageItem: mImageUrls){
+                            if (imageItem.getImgUrl()!=null && imageItem.getImgUrl().length()>0){
+                                returnImageUrls.add(imageItem.getImgUrl());
+                            }
+                        }
+                        intent1.putStringArrayListExtra("imageurls", returnImageUrls);
                         AddEventActivity.this.startActivity(intent1);
-                        mImageUrls.add(addImageBtn);
                     }
                 }else {
                     ToastUtil.showShort(AddEventActivity.this, "等待上传完成");

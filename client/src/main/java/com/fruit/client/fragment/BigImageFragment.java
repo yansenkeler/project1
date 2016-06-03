@@ -13,6 +13,7 @@ import com.bumptech.glide.util.Util;
 import com.fruit.client.R;
 import com.fruit.client.util.Urls;
 import com.fruit.core.fragment.FruitFragment;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by John on 2016/6/2.
@@ -44,34 +45,35 @@ public class BigImageFragment extends FruitFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_big_img, null, false);
         imageView = (ImageView)v.findViewById(R.id.imageview);
-        if (Util.isOnMainThread()){
-            Glide.with(getActivity().getApplicationContext()).load(Urls.ROOT+imageUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
-        }
+        ImageLoader.getInstance().displayImage(Urls.ROOT+imageUrl, imageView);
+//        if (Util.isOnMainThread()){
+//            Glide.with(getActivity().getApplicationContext()).load(Urls.ROOT+imageUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
+//        }
         return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (Util.isOnMainThread()){
-            Glide.with(getActivity().getApplicationContext()).onStart();
-        }
+//        if (Util.isOnMainThread()){
+//            Glide.with(getActivity().getApplicationContext()).onStart();
+//        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (Util.isOnMainThread()){
-            Glide.with(getActivity().getApplicationContext()).onStop();
-        }
+//        if (Util.isOnMainThread()){
+//            Glide.with(getActivity().getApplicationContext()).onStop();
+//        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (Util.isOnMainThread()){
-            Glide.with(getActivity().getApplicationContext()).onDestroy();
-        }
+//        if (Util.isOnMainThread()){
+//            Glide.with(getActivity().getApplicationContext()).onDestroy();
+//        }
     }
 
     @Override

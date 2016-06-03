@@ -183,7 +183,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
     private ArrayList<ImageItem> imageItems = new ArrayList<>();
     private String mCurrentPhotoPath;
     private String mCurrentUploadPhotoPath;
-//    private ArrayList<String> returnImgUrls = new ArrayList<>();
+    private ArrayList<String> returnImgUrls = new ArrayList<>();
     private boolean isUpload = false;
     private String uploadImageUrl = "AJAXReturnData/ImageUpload.ashx";
     private boolean isFromPictureSelect = false;
@@ -338,10 +338,16 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                     }else {
                         Intent intent1 = new Intent(EventDetailEditActivity.this, BigImageActivity.class);
                         intent1.putExtra("currentIndex", position);
-                        imageItems.remove(imageItems.size()-1);
-                        intent1.putExtra("imageitems", imageItems);
+//                        imageItems.remove(imageItems.size()-1);
+                        returnImgUrls.clear();
+                        for (ImageItem imageItem: imageItems){
+                            if (imageItem.getImgUrl()!=null && imageItem.getImgUrl().length()>0){
+                                returnImgUrls.add(imageItem.getImgUrl());
+                            }
+                        }
+                        intent1.putStringArrayListExtra("imageurls", returnImgUrls);
                         EventDetailEditActivity.this.startActivity(intent1);
-                        imageItems.add(addImageBtn);
+//                        imageItems.add(addImageBtn);
                     }
                 }else {
                     ToastUtil.showShort(EventDetailEditActivity.this, "等待上传完成");
