@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.fruit.client.R;
 import com.fruit.client.fragment.BigImageFragment;
-import com.fruit.client.object.ImageItem;
 import com.fruit.core.activity.FruitActivity;
 
 import java.util.ArrayList;

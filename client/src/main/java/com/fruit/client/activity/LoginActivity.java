@@ -98,6 +98,14 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
+
+        channelIdValue = DBUtil.getConfigValue("channelId");
+        Log.d("channelid", "in login oncreate channelid: "+channelIdValue);
+        if (channelIdValue!=null && channelIdValue.length()>0){
+            pushServiceInitialSuccess = true;
+        }else {
+            pushServiceInitialSuccess = false;
+        }
     }
 
     @Override
@@ -181,15 +189,8 @@ public class LoginActivity extends BaseActivity {
             DBUtil.setConfigValue("dept_name", deptName!=null?deptName:"");
             DBUtil.setConfigValue("dept_pk", deptPk!=null?deptPk:"");
             DBUtil.setConfigValue("real_name", realName!=null?realName:"");
-            channelIdValue = DBUtil.getConfigValue("channelId");
-            Log.d("channelid", "login success channelid: "+channelIdValue);
-            if (channelIdValue!=null && channelIdValue.length()>0){
-                pushServiceInitialSuccess = true;
-            }else {
-                pushServiceInitialSuccess = false;
-            }
             if (!pushServiceInitialSuccess){
-//                ToastUtil.showShort(this, "登陆成功，但是可能无法接收到推送");
+                ToastUtil.showShort(LoginActivity.this, "登录成功，但是无法接收到消息推送");
             }
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -241,6 +242,7 @@ public class LoginActivity extends BaseActivity {
             }else {
                 string = Constant.url + url + "?userno="+mEditText1.getText().toString()+"&pwd="+mEditText2.getText().toString();
             }
+            Log.d("channelid", string);
             VolleyManager.newInstance(LoginActivity.this).JsonGetRequest(null, string, Object.class, LoginActivity.this, TASK_LOGIN);
 //            setState(MultiStateView.ViewState.LOADING);
             showLoadingDialog("登录中...");

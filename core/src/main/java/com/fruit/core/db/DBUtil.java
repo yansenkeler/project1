@@ -22,7 +22,7 @@ public class DBUtil {
 
     // 设置配置信息
     public static void setConfigValue(String key, String value) {
-        DaoSession daoSession = DatabaseManager.getInstance().getDaoSession("config");
+        DaoSession daoSession = DatabaseManager.getInstance().getDaoSession();
         config c = new config();
         c.setKey(key);
         c.setValue(value);
@@ -35,13 +35,19 @@ public class DBUtil {
 
     // 获取配置信息
     public static String getConfigValue(String key) {
-        DaoSession daoSession = DatabaseManager.getInstance().getDaoSession("config");
+        DaoSession daoSession = DatabaseManager.getInstance().getDaoSession();
         configDao configDao = daoSession.getConfigDao();
-        List<config> configs =  configDao.queryBuilder().where(Properties.Key.eq(key)).list();
+        List<config> configs =  configDao.loadAll();
         String value = "";
-        if (configs!=null&&configs.size()>0){
-            value = configs.get(0).getValue();
+        for (int i=0; i<configs.size(); i++){
+            config config = configs.get(i);
+            if (config.getKey().equals(key)){
+                value = config.getValue();
+            }
         }
+//        if (configs!=null&&configs.size()>0){
+//            value = configs.get(0).getValue();
+//        }
         DatabaseManager.getInstance().closeDatabase();
         return value;
     }
@@ -53,7 +59,7 @@ public class DBUtil {
      */
     public static String getPassword(String account)
     {
-        DaoSession mDaoSession = DatabaseManager.getInstance().getDaoSession("accountPassword");
+        DaoSession mDaoSession = DatabaseManager.getInstance().getDaoSession();
         accountPasswordDao mDao = mDaoSession.getAccountPasswordDao();
         List<accountPassword> mList = mDao.loadAll();
         for (int i=0; i<mList.size(); i++)
@@ -77,7 +83,7 @@ public class DBUtil {
      */
     public static void insertAccountPassword(String account, String password, boolean lastLogin)
     {
-        DaoSession mDaoSession = DatabaseManager.getInstance().getDaoSession("accountPassword");
+        DaoSession mDaoSession = DatabaseManager.getInstance().getDaoSession();
         accountPassword mAccountPassword = new accountPassword();
         mAccountPassword.setAccount(account);
         mAccountPassword.setPassword(password);
@@ -102,7 +108,7 @@ public class DBUtil {
      */
     public static accountPassword getLastLoginAccount()
     {
-        DaoSession mDaoSession = DatabaseManager.getInstance().getDaoSession("accountPassword");
+        DaoSession mDaoSession = DatabaseManager.getInstance().getDaoSession();
         accountPasswordDao mDao = mDaoSession.getAccountPasswordDao();
         QueryBuilder<accountPassword> mList = mDao.queryBuilder().where(accountPasswordDao.Properties.LastLogin.eq(true));
         if (mList.list().size()==1){
@@ -112,7 +118,7 @@ public class DBUtil {
     }
 
     public static ArrayList<msg> getMsgs(){
-        DaoSession daoSession = DatabaseManager.getInstance().getDaoSession("msg");
+        DaoSession daoSession = DatabaseManager.getInstance().getDaoSession();
         msgDao messageDao = daoSession.getMsgDao();
         ArrayList<msg> shs = (ArrayList<msg>) messageDao.loadAll();
         DatabaseManager.getInstance().closeDatabase();
@@ -120,7 +126,7 @@ public class DBUtil {
     }
 
     public static void setIsRead(String billno, boolean isRead){
-        DaoSession mSession = DatabaseManager.getInstance().getDaoSession("msg");
+        DaoSession mSession = DatabaseManager.getInstance().getDaoSession();
         msgDao mMessageDao = mSession.getMsgDao();
         List<msg> mMessages = mMessageDao.loadAll();
         for (int i=0; i<mMessages.size(); i++){
@@ -135,7 +141,7 @@ public class DBUtil {
     }
 
     public static void setMsg(String title, String description, String billno){
-        DaoSession daoSession = DatabaseManager.getInstance().getDaoSession("msg");
+        DaoSession daoSession = DatabaseManager.getInstance().getDaoSession();
         msg data = new msg();
         data.setTitle(title);
         data.setDescription(description);

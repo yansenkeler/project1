@@ -41,6 +41,13 @@ public class FruitDbDaoGenerator {
 
         new DaoGenerator().generateAll(schema, generatePath);
     }
+
+//    private static void addChannelId(Schema schema) {
+//        Entity config = schema.addEntity("ChannelId");
+//        config.addStringProperty("key");
+//        config.addStringProperty("value");
+//    }
+
     //配置表
     private static void addConfig(Schema schema) {
         Entity config = schema.addEntity("config");

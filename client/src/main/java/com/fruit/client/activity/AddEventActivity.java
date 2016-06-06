@@ -537,7 +537,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                         valid = false;
                         routeSpinner.setSelection(0);
 //                        routeCodeText.setText("查无此路线");
-                        ToastUtil.showShort(this, "你无法在此处添加事件");
+//                        ToastUtil.showShort(this, "你无法在此处添加事件");
                     }else {
                         valid = false;
                         routeSpinner.setSelection(0);

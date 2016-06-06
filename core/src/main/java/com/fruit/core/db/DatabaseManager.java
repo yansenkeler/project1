@@ -18,6 +18,7 @@ public class DatabaseManager {
 
     private static DatabaseManager instance;
     private SQLiteDatabase mDatabase;
+    public static final String DB_NAME = "fruit.db";
 
     public static synchronized void initializeInstance() {
         if (instance == null) {
@@ -33,17 +34,17 @@ public class DatabaseManager {
         return instance;
     }
 
-    public synchronized SQLiteDatabase openDatabase(String table) {
+    public synchronized SQLiteDatabase openDatabase() {
         if(mOpenCounter.incrementAndGet() == 1) {
             // Opening new database
-            mDatabase = new DaoMaster.DevOpenHelper(ApplicationUtils.getAppContext(),table,null).getWritableDatabase();
+            mDatabase = new DaoMaster.DevOpenHelper(ApplicationUtils.getAppContext(),DB_NAME,null).getWritableDatabase();
         }
         return mDatabase;
     }
 
 
-    public synchronized DaoSession getDaoSession(String table){
-        mDatabase =  openDatabase(table);
+    public synchronized DaoSession getDaoSession(){
+        mDatabase =  openDatabase();
         DaoMaster daoMaster = new DaoMaster(mDatabase);
         DaoSession daoSession = daoMaster.newSession();
         return daoSession;
