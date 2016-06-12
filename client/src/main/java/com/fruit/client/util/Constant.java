@@ -1,5 +1,9 @@
 package com.fruit.client.util;
 
+import android.content.Context;
+
+import java.io.File;
+
 /**
  * Created by user on 2016/2/26.
  */
@@ -67,4 +71,11 @@ public class Constant {
         public static final String CONSTR = "施工";
         public static final String ACCEPTANCE = "竣工验收";
     }
+
+    public static String getStaticParamsDir(Context context){
+        String s = context.getFilesDir().getAbsolutePath()+ File.separator;
+        return s;
+    }
+
+    public static final String PARAM_NAME = "params.txt";
 }

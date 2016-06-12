@@ -8,6 +8,7 @@ import android.content.Intent;
 import com.fruit.client.R;
 import com.fruit.client.activity.InspectNavigationActivity;
 import com.fruit.client.activity.PermissionsActivity;
+import com.fruit.client.adapter.InspectAdapter;
 import com.fruit.client.adapter.RoutePlanAdapter;
 import com.fruit.client.object.RoutePlan;
 import com.fruit.client.object.RoutePoint;
@@ -22,6 +23,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +49,7 @@ import com.fruit.common.ui.ToastUtil;
 import com.fruit.core.db.DBUtil;
 import com.fruit.core.fragment.FruitFragment;
 import com.fruit.core.http.VolleyManager;
+import com.fruit.widget.MultiStateView;
 
 import java.io.File;
 import java.security.Permissions;
@@ -70,16 +74,21 @@ public class InspectFragment extends FruitFragment {
 
     public static List<Activity> activityList = new ArrayList<>();
 
-    private Button mStartInspect;
-    private TextView taskName, taskDate, taskRoute;
-//    private TextView timeText;
-//    private ImageView chooseTimeImage;
-    private Spinner routeSpinner;
+    private MultiStateView multiStateView;
+    private SwipeRefreshLayout mRefreshLayout;
+    private ListView planList;
+    private Button retry;
+
+//    private Button mStartInspect;
+//    private TextView taskName, taskDate, taskRoute;
+////    private TextView timeText;
+////    private ImageView chooseTimeImage;
+//    private Spinner routeSpinner;
     private String mSDCardPath;
     private String authinfo;
 
     private ArrayList<RoutePlan> routePlen = new ArrayList<>();
-    private RoutePlanAdapter routePlanAdapter;
+    private InspectAdapter adapter;
 
     private double startLatitude, startLongitude, endLatitude, endLongitude;
 
@@ -114,10 +123,10 @@ public class InspectFragment extends FruitFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle mBundle = getArguments();
-        RoutePlan routePlan = new RoutePlan();
-        routePlan.setTaskNo("空");
-        routePlen.add(routePlan);
-        routePlanAdapter = new RoutePlanAdapter(routePlen, getActivity());
+//        RoutePlan routePlan = new RoutePlan();
+//        routePlan.setTaskNo("空");
+//        routePlen.add(routePlan);
+        adapter = new InspectAdapter(routePlen, getActivity());
         calendar = new GregorianCalendar();
 
         checker = new PermissionsChecker(getActivity());
@@ -133,34 +142,33 @@ public class InspectFragment extends FruitFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_inspect, null, false);
-        mStartInspect = (Button)v.findViewById(R.id.start_inspect);
-        routeSpinner = (Spinner)v.findViewById(R.id.route_spinner);
-        taskName = (TextView)v.findViewById(R.id.name);
-        taskDate = (TextView)v.findViewById(R.id.date);
-        taskRoute = (TextView)v.findViewById(R.id.route);
-//        timeText = (TextView)v.findViewById(R.id.time);
-//        chooseTimeImage = (ImageView)v.findViewById(R.id.choose_time);
-//        chooseTimeImage.setOnClickListener(this);
-        mStartInspect.setOnClickListener(this);
+        View v = inflater.inflate(R.layout.fragment_event, null, false);
+        multiStateView = (MultiStateView)v.findViewById(R.id.multistateview);
+        multiStateView.setViewForState(R.layout.layout_content_list, MultiStateView.ViewState.CONTENT);
+        multiStateView.setViewForState(R.layout.layout_loading, MultiStateView.ViewState.LOADING);
+        multiStateView.setViewForState(R.layout.layout_error, MultiStateView.ViewState.ERROR);
+        multiStateView.setViewForState(R.layout.layout_empty, MultiStateView.ViewState.EMPTY);
+
+        mRefreshLayout = (SwipeRefreshLayout)multiStateView.getView(MultiStateView.ViewState.CONTENT).findViewById(R.id.refresh_container);
+        planList = (ListView)multiStateView.getView(MultiStateView.ViewState.CONTENT).findViewById(R.id.list_view);
+        retry = (Button)multiStateView.getView(MultiStateView.ViewState.ERROR).findViewById(R.id.retry);
+
+        planList.setAdapter(adapter);
         if (initDirs()){
             initNavi();
         }
-        routeSpinner.setAdapter(routePlanAdapter);
-        routeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        planList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position>0){
-                    RoutePlan routePlan = routePlen.get(position);
-                    taskName.setText(routePlan.getPlanName());
-                    taskDate.setText(routePlan.getDateInfo());
-                    taskRoute.setText(routePlan.getPlanDescr());
-                }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showDialog("正在获取巡查信息...", getActivity());
+                getPlanDetail(routePlen.get(position).getPlanPk());
+                taskIndex = position;
             }
-
+        });
+        retry.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                getTaskList();
             }
         });
         return v;
@@ -169,16 +177,16 @@ public class InspectFragment extends FruitFragment {
     @Override
     public void onFruitClick(int id) {
         switch (id){
-            case R.id.start_inspect:
-                int index = routeSpinner.getSelectedItemPosition();
-                if (index>0){
-                    showDialog("正在获取巡查信息...", getActivity());
-                    getPlanDetail(routePlen.get(index).getPlanPk());
-                    taskIndex = index;
-                }else {
-                    ToastUtil.showShort(getActivity(), "选择一条巡查路线");
-                }
-                break;
+//            case R.id.start_inspect:
+//                int index = routeSpinner.getSelectedItemPosition();
+//                if (index>0){
+//                    showDialog("正在获取巡查信息...", getActivity());
+//                    getPlanDetail(routePlen.get(index).getPlanPk());
+//                    taskIndex = index;
+//                }else {
+//                    ToastUtil.showShort(getActivity(), "选择一条巡查路线");
+//                }
+//                break;
 //            case R.id.choose_time:
 //                new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 //                    @Override
@@ -213,9 +221,9 @@ public class InspectFragment extends FruitFragment {
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                         JSONArray jsonArray = jsonObject1.getJSONArray("list");
                         routePlen.clear();
-                        RoutePlan routePlan0 = new RoutePlan();
-                        routePlan0.setPlanName("空");
-                        routePlen.add(routePlan0);
+//                        RoutePlan routePlan0 = new RoutePlan();
+//                        routePlan0.setPlanName("空");
+//                        routePlen.add(routePlan0);
                         for (int i=0; i<jsonArray.size(); i++){
                             JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                             RoutePlan routePlan = new RoutePlan();
@@ -232,20 +240,13 @@ public class InspectFragment extends FruitFragment {
                             routePlan.setPlanDescr(jsonObject2.getString("PlanDescr"));
                             routePlen.add(routePlan);
                         }
-                        routePlanAdapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                     }else if (flag.equals("0001")){
                         routePlen.clear();
-                        RoutePlan routePlan0 = new RoutePlan();
-                        routePlan0.setPlanName("空");
-                        routePlen.add(routePlan0);
-                        routePlanAdapter.notifyDataSetChanged();
+                        multiStateView.setViewState(MultiStateView.ViewState.EMPTY);
                     }else {
                         routePlen.clear();
-                        RoutePlan routePlan0 = new RoutePlan();
-                        routePlan0.setPlanName("空");
-                        routePlen.add(routePlan0);
-                        routePlanAdapter.notifyDataSetChanged();
-                        ToastUtil.showShort(getActivity(), "获取巡查任务失败");
+                        multiStateView.setViewState(MultiStateView.ViewState.ERROR);
                     }
                 }
                 break;
@@ -271,9 +272,8 @@ public class InspectFragment extends FruitFragment {
                             BNRoutePlanNode bnRoutePlanNode = new BNRoutePlanNode(lon, lat, "", null, BNRoutePlanNode.CoordinateType.BD09LL);
                             bnRoutePlanNodes.add(bnRoutePlanNode);
                         }
-                        int index = routeSpinner.getSelectedItemPosition();
-                        getEventList(routePlen.get(index).getPlanPk());
-
+//                        int index = routeSpinner.getSelectedItemPosition();
+                        getEventList(routePlen.get(taskIndex).getPlanPk());
                     }else if (flag.equals("0001")){
                         hideProgressDialog();
                         ToastUtil.showShort(getActivity(), "没有查询到巡查点");

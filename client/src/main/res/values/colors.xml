@@ -13,4 +13,5 @@
     <color name="color_tab_active">#1196db</color>
     <color name="color_tab_normal">#8a8a8a</color>
     <color name="color_black">#000000</color>
+    <color name="dark_grey" >#444444</color>
 </resources>

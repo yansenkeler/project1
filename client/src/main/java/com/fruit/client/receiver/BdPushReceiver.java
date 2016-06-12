@@ -49,13 +49,12 @@ public class BdPushReceiver  extends FruitPushMessageReceiver{
         super.onListTags(context, i, list, s);
     }
 
-    //透传消息到达时回调该函数
     @Override
-    public void onMessage(final Context context, final String s, String s1) {
-
+    public void onMessage(final Context context, final String message, String customContentString) {
+        super.onMessage(context, message, customContentString);
+        ToastUtil.showShort(context.getApplicationContext(), "接收到透传消息:"+message+" "+customContentString);
     }
 
-    //通知栏推送被点击时回调
     @Override
     public void onNotificationClicked(Context context, String title, String content, String jsonString) {
         super.onNotificationClicked(context, title, content, jsonString);
@@ -73,7 +72,7 @@ public class BdPushReceiver  extends FruitPushMessageReceiver{
     }
 
     @Override
-    public void onNotificationArrived( Context context, String title,  String content, String jsonString) {
+    public void onNotificationArrived(Context context, String title,  String content, String jsonString) {
         super.onNotificationArrived(context, title, content, jsonString);
         Log.d(D + "onNotificationArrived", title + ";" + content + ";" + jsonString);
         if (jsonString!=null){

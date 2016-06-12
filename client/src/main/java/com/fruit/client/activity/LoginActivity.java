@@ -243,8 +243,8 @@ public class LoginActivity extends BaseActivity {
                 string = Constant.url + url + "?userno="+mEditText1.getText().toString()+"&pwd="+mEditText2.getText().toString();
             }
             Log.d("channelid", string);
+            ToastUtil.showLong(this, "channelid: "+channelIdValue);
             VolleyManager.newInstance(LoginActivity.this).JsonGetRequest(null, string, Object.class, LoginActivity.this, TASK_LOGIN);
-//            setState(MultiStateView.ViewState.LOADING);
             showLoadingDialog("登录中...");
         }
     }

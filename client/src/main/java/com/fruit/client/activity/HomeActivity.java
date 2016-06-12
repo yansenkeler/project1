@@ -130,7 +130,7 @@ public class HomeActivity extends FruitActivity implements TabHost.OnTabChangeLi
         roleName = DBUtil.getConfigValue("role_name");
         hasInitial = DBUtil.getConfigValue("initial");
         if (roleName.equals(Constant.RoleName.CONSTRUCTION)||roleName.equals(Constant.RoleName.LUZHENG_CONFIRM)){
-            showAddEventBtn = false;
+//            showAddEventBtn = false;
         }
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView)findViewById(R.id.navigation_view);
@@ -585,13 +585,13 @@ public class HomeActivity extends FruitActivity implements TabHost.OnTabChangeLi
             mParams.put(paramName, mList);
             if (mParams.size()==params.length){
                 String jsonString = JSONObject.toJSONString(mParams);
-                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator;
-                File mFile = new File(filePath, "params.txt");
+//                String filePath = this.getFilesDir().getAbsolutePath()+ File.separator;
+                File mFile = new File(Constant.getStaticParamsDir(this), Constant.PARAM_NAME);
                 if (!mFile.exists()){
-                    FileUtil.writeStringToFile(jsonString, filePath, "params.txt");
+                    FileUtil.writeStringToFile(jsonString, Constant.getStaticParamsDir(this), "params.txt");
                 }else {
                     mFile.delete();
-                    FileUtil.writeStringToFile(jsonString, filePath, "params.txt");
+                    FileUtil.writeStringToFile(jsonString, Constant.getStaticParamsDir(this), "params.txt");
                 }
                 hideProgressDialog();
                 ToastUtil.showShort(this, "初始化数据成功");

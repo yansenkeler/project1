@@ -114,7 +114,7 @@ public class AddPileActivity extends NaviActivity implements View.OnClickListene
 
     private void initData()
     {
-        String filePath  = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+"params.txt";
+        String filePath  = Constant.getStaticParamsDir(this)+Constant.PARAM_NAME;
         String jsonString = FileUtil.readStringFromFile(filePath);
         JSONObject jsonObject = JSONObject.parseObject(jsonString);
         JSONArray mJSONArray = jsonObject.getJSONArray("路线");

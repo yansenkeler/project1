@@ -1616,6 +1616,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         mGrades.add("紧急");
         mDirections.add("上行");
         mDirections.add("下行");
+        mDirections.add("中间");
         mDirections.add("双向");
         mTypes1.add("路政");
         mTypes1.add("养护");
@@ -1636,7 +1637,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         deptName = DBUtil.getConfigValue("dept_name");
         userName = DBUtil.getConfigValue("user_name");
 
-        String filePath  = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+"params.txt";
+        String filePath  = Constant.getStaticParamsDir(this)+Constant.PARAM_NAME;
         String jsonString = FileUtil.readStringFromFile(filePath);
         JSONObject jsonObject = JSONObject.parseObject(jsonString);
         mRoutes.clear();
