@@ -1664,7 +1664,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         mTimes.add("20:00");
         addImageBtn = new ImageItem();
         addImageBtn.setLast(true);
-        imageItems.add(addImageBtn);
+//        imageItems.add(addImageBtn);
     }
 
     private void initData(){
