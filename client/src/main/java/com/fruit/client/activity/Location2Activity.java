@@ -51,6 +51,7 @@ public class Location2Activity extends FruitActivity implements BaiduMap.OnMapSt
         mMapView.removeViewAt(1);
         mMapView.showScaleControl(false);
         mMapView.showZoomControls(true);
+        Locationor.getInstance(getApplication()).updateLocation(mMapView, new LatLng(120.552644,31.874786), 16);
         Application mApplication = getApplication();
         if (mApplication instanceof MyApplication){
             mMyApplication = (MyApplication)mApplication;

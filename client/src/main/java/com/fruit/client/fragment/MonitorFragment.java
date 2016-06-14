@@ -110,6 +110,8 @@ public class MonitorFragment extends FruitFragment implements MyApplication.OnRe
         mMapView.removeViewAt(1);
         mMapView.showScaleControl(false);
         mMapView.showZoomControls(true);
+        Locationor.getInstance(getActivity().getApplication()).updateLocation(mMapView, new LatLng(120.552644,31.874786), 16);
+
         Application mApplication1 = getActivity().getApplication();
         if (mApplication1 instanceof MyApplication){
             mApplication = (MyApplication)mApplication1;

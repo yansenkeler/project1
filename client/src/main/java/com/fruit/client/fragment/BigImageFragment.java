@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.util.Util;
 import com.fruit.client.R;
+import com.fruit.client.object.ImageInfo;
 import com.fruit.client.util.Urls;
 import com.fruit.core.fragment.FruitFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -20,13 +22,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  */
 public class BigImageFragment extends FruitFragment {
     private ImageView imageView;
-    private String imageUrl;
+    private TextView type, upUser, upTime;
+    private ImageInfo imageInfo;
 
-
-    public static BigImageFragment newInstance(String imageUrl) {
+    public static BigImageFragment newInstance(ImageInfo imageInfo) {
         BigImageFragment fragment = new BigImageFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("image_url", imageUrl);
+        bundle.putParcelable("image_info", imageInfo);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -35,8 +37,8 @@ public class BigImageFragment extends FruitFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if (bundle.containsKey("image_url")){
-            imageUrl = bundle.getString("image_url");
+        if (bundle.containsKey("image_info")){
+            imageInfo = bundle.getParcelable("image_info");
         }
     }
 
@@ -45,7 +47,14 @@ public class BigImageFragment extends FruitFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_big_img, null, false);
         imageView = (ImageView)v.findViewById(R.id.imageview);
-        ImageLoader.getInstance().displayImage(Urls.ROOT+imageUrl, imageView);
+        type = (TextView)v.findViewById(R.id.type);
+        upUser = (TextView)v.findViewById(R.id.up_user);
+        upTime = (TextView)v.findViewById(R.id.up_time);
+
+        type.setText(imageInfo.getType());
+        upUser.setText(imageInfo.getUpUser());
+        upTime.setText(imageInfo.getUpTime());
+        ImageLoader.getInstance().displayImage(Urls.ROOT+imageInfo.getUrl(), imageView);
 //        if (Util.isOnMainThread()){
 //            Glide.with(getActivity().getApplicationContext()).load(Urls.ROOT+imageUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
 //        }

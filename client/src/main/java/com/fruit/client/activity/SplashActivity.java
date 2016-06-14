@@ -88,16 +88,16 @@ public class SplashActivity extends FruitActivity {
         });
         //每加载一次数据，tag的数字标识加一
         curTag = label+(++num);
-//        loadData(curTag);
+        loadData(curTag);
         mProgressBar.setVisibility(View.GONE);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }, 3000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        }, 3000);
     }
 
     private void loadData(String tag){
@@ -216,14 +216,15 @@ public class SplashActivity extends FruitActivity {
             mParams.put(paramName, mList);
             if (mParams.size()==params.length){
                 String jsonString = JSONObject.toJSONString(mParams);
-                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator;
-                File mFile = new File(filePath, "params.txt");
+//                String filePath = Constant.getStaticParamsDir(this)+Constant.PARAM_NAME;
+                File mFile = new File(Constant.getStaticParamsDir(this), Constant.PARAM_NAME);
                 if (!mFile.exists()){
-                    FileUtil.writeStringToFile(jsonString, filePath, "params.txt");
+                    FileUtil.writeStringToFile(jsonString, Constant.getStaticParamsDir(this), Constant.PARAM_NAME);
                 }else {
                     mFile.delete();
-                    FileUtil.writeStringToFile(jsonString, filePath, "params.txt");
+                    FileUtil.writeStringToFile(jsonString, Constant.getStaticParamsDir(this), Constant.PARAM_NAME);
                 }
+                ToastUtil.showShort(this, "初始化数据成功");
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();

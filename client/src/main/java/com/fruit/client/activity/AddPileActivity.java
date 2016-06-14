@@ -112,16 +112,20 @@ public class AddPileActivity extends NaviActivity implements View.OnClickListene
         onBackPressed();
     }
 
-    private void initData()
-    {
+    private void initData() {
         String filePath  = Constant.getStaticParamsDir(this)+Constant.PARAM_NAME;
-        String jsonString = FileUtil.readStringFromFile(filePath);
-        JSONObject jsonObject = JSONObject.parseObject(jsonString);
-        JSONArray mJSONArray = jsonObject.getJSONArray("路线");
-        mParams.clear();
-        for (int i=0; i<mJSONArray.size(); i++){
-            JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
-            mParams.add(jsonObject1.getString("name"));
+        if (new File(filePath).exists()){
+            String jsonString = FileUtil.readStringFromFile(filePath);
+            JSONObject jsonObject = JSONObject.parseObject(jsonString);
+            JSONArray mJSONArray = jsonObject.getJSONArray("路线");
+            mParams.clear();
+            for (int i=0; i<mJSONArray.size(); i++){
+                JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
+                mParams.add(jsonObject1.getString("name"));
+            }
+        }else {
+            ToastUtil.showShort(this, "请先初始化数据");
+            finish();
         }
     }
 

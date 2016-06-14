@@ -1,6 +1,8 @@
 package com.fruit.client.util;
 
 import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 
@@ -72,10 +74,17 @@ public class Constant {
         public static final String ACCEPTANCE = "竣工验收";
     }
 
+    public static final String PARAM_NAME = "params.txt";
+
     public static String getStaticParamsDir(Context context){
         String s = context.getFilesDir().getAbsolutePath()+ File.separator;
+        Log.d("filepath", s);
+//        s = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator;
         return s;
     }
 
-    public static final String PARAM_NAME = "params.txt";
+    public static boolean hasParamsFile(Context context){
+        File file = new File(getStaticParamsDir(context)+PARAM_NAME);
+        return file.exists();
+    }
 }

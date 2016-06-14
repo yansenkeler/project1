@@ -93,6 +93,10 @@ public class ImageGridAdapter extends BaseAdapter {
         return v;
     }
 
+    public void hideAddIcon(){
+
+    }
+
     class ViewHolder{
         ImageView mImageView;
         FrameLayout mProgress;

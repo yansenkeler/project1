@@ -258,13 +258,9 @@ public class HomeActivity extends FruitActivity implements TabHost.OnTabChangeLi
                 }
                 break;
             case R.id.icon_menu_right:
-                if (DBUtil.getConfigValue("initial").equals("1")){
-                    Intent intent = new Intent(HomeActivity.this, LocationActivity.class);
-                    intent.putExtra("type", Constant.AddType.TYPE_EVENT);
-                    startActivity(intent);
-                }else {
-                    ToastUtil.showShort(this, "请先初始化数据");
-                }
+                Intent intent = new Intent(HomeActivity.this, LocationActivity.class);
+                intent.putExtra("type", Constant.AddType.TYPE_EVENT);
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -349,44 +345,28 @@ public class HomeActivity extends FruitActivity implements TabHost.OnTabChangeLi
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_pile:
-                if (DBUtil.getConfigValue("initial").equals("1")){
-                    Intent intent = new Intent(HomeActivity.this, LocationActivity.class);
-                    intent.putExtra("type", Constant.AddType.TYPE_PILE);
-                    startActivity(intent);
-                    closeDrawerLater();
-                }else {
-                    ToastUtil.showShort(this, "请先初始化数据");
-                }
+                Intent intent = new Intent(HomeActivity.this, LocationActivity.class);
+                intent.putExtra("type", Constant.AddType.TYPE_PILE);
+                startActivity(intent);
+                closeDrawerLater();
                 break;
             case R.id.add_mark:
-                if (DBUtil.getConfigValue("initial").equals("1")){
-                    Intent intent1 = new Intent(HomeActivity.this, LocationActivity.class);
-                    intent1.putExtra("type", Constant.AddType.TYPE_MARK);
-                    startActivity(intent1);
-                    closeDrawerLater();
-                }else {
-                    ToastUtil.showShort(this, "请先初始化数据");
-                }
+                Intent intent1 = new Intent(HomeActivity.this, LocationActivity.class);
+                intent1.putExtra("type", Constant.AddType.TYPE_MARK);
+                startActivity(intent1);
+                closeDrawerLater();
                 break;
             case R.id.add_fence:
-                if (DBUtil.getConfigValue("initial").equals("1")){
-                    Intent intent2 = new Intent(HomeActivity.this, LocationActivity.class);
-                    intent2.putExtra("type", Constant.AddType.TYPE_FENCE);
-                    startActivity(intent2);
-                    closeDrawerLater();
-                }else {
-                    ToastUtil.showShort(this, "请先初始化数据");
-                }
+                Intent intent2 = new Intent(HomeActivity.this, LocationActivity.class);
+                intent2.putExtra("type", Constant.AddType.TYPE_FENCE);
+                startActivity(intent2);
+                closeDrawerLater();
                 break;
             case R.id.add_other:
-                if (DBUtil.getConfigValue("initial").equals("1")){
-                    Intent intent3 = new Intent(HomeActivity.this, LocationActivity.class);
-                    intent3.putExtra("type", Constant.AddType.TYPE_OTHER);
-                    startActivity(intent3);
-                    closeDrawerLater();
-                }else {
-                    ToastUtil.showShort(this, "请先初始化数据");
-                }
+                Intent intent3 = new Intent(HomeActivity.this, LocationActivity.class);
+                intent3.putExtra("type", Constant.AddType.TYPE_OTHER);
+                startActivity(intent3);
+                closeDrawerLater();
                 break;
             case R.id.initial_system:
                 //每加载一次数据，tag的数字标识加一
@@ -430,8 +410,8 @@ public class HomeActivity extends FruitActivity implements TabHost.OnTabChangeLi
     }
 
     private void clearCache() {
-        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator;
-        File file = new File(filePath, "params.txt");
+        String filePath = Constant.getStaticParamsDir(this)+Constant.PARAM_NAME;
+        File file = new File(filePath);
         if (file.exists()){
             file.delete();
             ToastUtil.showShort(this, "成功清除缓存");
@@ -588,10 +568,10 @@ public class HomeActivity extends FruitActivity implements TabHost.OnTabChangeLi
 //                String filePath = this.getFilesDir().getAbsolutePath()+ File.separator;
                 File mFile = new File(Constant.getStaticParamsDir(this), Constant.PARAM_NAME);
                 if (!mFile.exists()){
-                    FileUtil.writeStringToFile(jsonString, Constant.getStaticParamsDir(this), "params.txt");
+                    FileUtil.writeStringToFile(jsonString, Constant.getStaticParamsDir(this), Constant.PARAM_NAME);
                 }else {
                     mFile.delete();
-                    FileUtil.writeStringToFile(jsonString, Constant.getStaticParamsDir(this), "params.txt");
+                    FileUtil.writeStringToFile(jsonString, Constant.getStaticParamsDir(this), Constant.PARAM_NAME);
                 }
                 hideProgressDialog();
                 ToastUtil.showShort(this, "初始化数据成功");

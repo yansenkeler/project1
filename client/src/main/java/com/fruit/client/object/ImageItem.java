@@ -13,12 +13,20 @@ public class ImageItem implements Parcelable{
     private String imgUrl;
     private String filePk;
     private boolean isLast = false;
+    private boolean isShown = true;
+
+    public boolean isShown() {
+        return isShown;
+    }
+
+    public void setShown(boolean shown) {
+        isShown = shown;
+    }
 
     public ImageItem() {
     }
 
     public ImageItem(Bitmap mBitmap, int uploadStatus, String imgUrl, String filePk) {
-
         this.mBitmap = mBitmap;
         this.uploadStatus = uploadStatus;
         this.imgUrl = imgUrl;

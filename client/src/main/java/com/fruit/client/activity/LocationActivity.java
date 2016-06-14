@@ -92,6 +92,8 @@ public class LocationActivity extends FruitActivity implements MyApplication.OnR
         mMapView.removeViewAt(1);
         mMapView.showScaleControl(false);
         mMapView.showZoomControls(true);
+        Locationor.getInstance(getApplication()).updateLocation(mMapView, new LatLng(120.552644,31.874786), 16);
+
         mGeocodeManager = BaiduGeocodeManager.getInstance();
         mFinish.setOnClickListener(this);
         mLocation.setOnClickListener(this);

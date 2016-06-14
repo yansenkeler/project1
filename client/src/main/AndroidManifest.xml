@@ -112,6 +112,7 @@
         <activity android:name=".activity.MonitorActivity"></activity>
         <activity android:name=".activity.PermissionsActivity"></activity>
         <activity android:name=".activity.BigImageActivity"></activity>
+        <activity android:name=".activity.BigImage2Activity"></activity>
 
         <service
             android:name="com.fruit.client.service.UpdateService"

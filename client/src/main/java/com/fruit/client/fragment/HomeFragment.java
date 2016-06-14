@@ -24,11 +24,14 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.inner.GeoPoint;
 import com.fruit.baiduapi.util.BaiduLocationUtil;
 import com.fruit.client.MyApplication;
 import com.fruit.client.R;
@@ -95,6 +98,9 @@ public class HomeFragment extends FruitFragment implements BaiduMap.OnMapStatusC
         mMapView.removeViewAt(1);
         mMapView.showScaleControl(false);
         mMapView.showZoomControls(true);
+
+        Locationor.getInstance(getActivity().getApplication()).updateLocation(mMapView, new LatLng(120.552644,31.874786), 16);
+
         Application mApplication = getActivity().getApplication();
         if (mApplication instanceof MyApplication){
             mMyApplication = (MyApplication)mApplication;
@@ -378,17 +384,12 @@ public class HomeFragment extends FruitFragment implements BaiduMap.OnMapStatusC
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if (DBUtil.getConfigValue("initial").equals("1")){
-            Bundle bundle = marker.getExtraInfo();
-            String billno = bundle.getString("bill_no");
-            Intent intent = new Intent(getActivity(), EventDetailEditActivity.class);
-            intent.putExtra("bill_no", billno);
-            startActivity(intent);
-            return true;
-        }else {
-            ToastUtil.showShort(getActivity(), "请先初始化数据");
-            return false;
-        }
+        Bundle bundle = marker.getExtraInfo();
+        String billno = bundle.getString("bill_no");
+        Intent intent = new Intent(getActivity(), EventDetailEditActivity.class);
+        intent.putExtra("bill_no", billno);
+        startActivity(intent);
+        return true;
     }
 
     class LocationTimerTask extends TimerTask {

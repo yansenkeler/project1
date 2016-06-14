@@ -96,9 +96,12 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
     private static final int TASK_ACCEPTANCE_RETURN = 11;
     private static final int TASK_GET_IMAGE = 12;
     private static final int TASK_DELETE_EVENT_IMAGE = 13;
+    private static final int TASK_SET_MSG_READ = 14;
+
     private static final int REQUEST_CAMERA = 0;
     private static final int REQUEST_ALBUM = 1;
     private static final String TAG = EventDetailEditActivity.class.getSimpleName();
+
 
     private TextView stateText;
     private TextView billNoText;
@@ -195,6 +198,10 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         Intent intent = getIntent();
         if (intent!=null && intent.hasExtra("bill_no")){
             billNoValue = intent.getStringExtra("bill_no");
+            if (intent.hasExtra("msg_pk")){
+                String msgPkValue = intent.getStringExtra("msg_pk");
+                setMsgRead(msgPkValue);
+            }
         }
         super.onCreate(savedInstanceState);
         initFixedData();
@@ -251,11 +258,8 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         submitBtn4 = (Button)v5.findViewById(R.id.submit_event);
         returnBtn4 = (Button)v5.findViewById(R.id.return_event);
         commentEdit4 = (EditText)v5.findViewById(R.id.memo);
-
         billNoText.setText(billNoValue);
-
         chooseTimeImg.setOnClickListener(this);
-
         addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -324,30 +328,19 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                 acceptanceReturnRequest();
             }
         });
-
         imageAdapter = new ImageGridAdapter(imageItems, this);
         mImageGrid.setAdapter(imageAdapter);
-
         mImageGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ImageItem imageItem = imageItems.get(position);
                 if (!isUpload){
-                    if (position==imageItems.size()-1){
+                    if (imageItems.get(position).isLast()){
                         startPickImage();
                     }else {
                         Intent intent1 = new Intent(EventDetailEditActivity.this, BigImageActivity.class);
+                        intent1.putExtra("billno", billNoValue);
                         intent1.putExtra("currentIndex", position);
-//                        imageItems.remove(imageItems.size()-1);
-                        returnImgUrls.clear();
-                        for (ImageItem imageItem: imageItems){
-                            if (imageItem.getImgUrl()!=null && imageItem.getImgUrl().length()>0){
-                                returnImgUrls.add(imageItem.getImgUrl());
-                            }
-                        }
-                        intent1.putStringArrayListExtra("imageurls", returnImgUrls);
                         EventDetailEditActivity.this.startActivity(intent1);
-//                        imageItems.add(addImageBtn);
                     }
                 }else {
                     ToastUtil.showShort(EventDetailEditActivity.this, "等待上传完成");
@@ -390,7 +383,6 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                 return true;
             }
         });
-
         routeSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mRoutes));
         rankSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mGrades));
         directionSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDirections));
@@ -403,7 +395,6 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         dealStatusSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mProcessTypes));
         constructionSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mProcessDepts));
         timeSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mTimes));
-
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -442,6 +433,17 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
 
             }
         });
+
+
+    }
+
+    private void setMsgRead(String msgpk){
+        Map<String, String> params = new HashMap<>();
+        params.put("type", "read");
+        params.put("msgpk", msgpk);
+        String s = NetWorkUtil.appendParameter(Constant.url, params);
+        VolleyManager.newInstance(this).JsonPostRequest(null, "utf-8", s, params, Urls.ROOT+Urls.USER_MAG, Object.class,
+                this, TASK_SET_MSG_READ);
     }
 
     private void deleteEventImageRequest(String filePk, int position) {
@@ -503,9 +505,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                 case REQUEST_CAMERA:
                     isFromPictureSelect = true;
                     // 添加到图库,这样可以在手机的图库程序中看到程序拍摄的照片
-//                    ImageCompassUtil.galleryAddPic(getActivity(), mCurrentPhotoPath);
                     Bitmap mBitmap = ImageCompassUtil.getSmallBitmap(mCurrentPhotoPath);
-//                    mImageView.setImageBitmap(mBitmap);
                     imageItems.remove(imageItems.size()-1);
                     imageItems.add(new ImageItem(mBitmap, 0, null, null));
                     imageItems.add(addImageBtn);
@@ -525,7 +525,6 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                         Uri mUri = data.getData();
                         if (mUri!=null){
                             String path = FileUtil.getImageAbsolutePath(this, mUri);
-//                            mImageView.setImageBitmap(ImageCompassUtil.getSmallBitmap(path));
                             imageItems.remove(imageItems.size()-1);
                             imageItems.add(new ImageItem(ImageCompassUtil.getSmallBitmap(path), 0, null, null));
                             imageItems.add(addImageBtn);
@@ -602,7 +601,12 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
     }
 
     private void resizeGridHeight(){
-        int lines = (imageItems.size()-1)/4+1;
+        int lines;
+        if (imageItems.size()>0){
+            lines = (imageItems.size()-1)/4+1;
+        }else {
+            lines = 0;
+        }
         WindowManager mManager = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics mMetrics = new DisplayMetrics();
         mManager.getDefaultDisplay().getMetrics(mMetrics);
@@ -735,7 +739,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
 
     private void updateFinishView() {
         stateActionContainer.removeAllViews();
-        mImageGrid.setVisibility(View.GONE);
+        mImageGrid.setVisibility(View.VISIBLE);
         rankSpinner.setEnabled(false);
         carNoSpinner.setEnabled(false);
         routeSpinner.setEnabled(false);
@@ -761,8 +765,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         //更新数据
         state = event.getState();
         stateText.setText(state);
-
-        mUserName.setText(event.getUserName());
+        mUserName.setText(event.getRealName());
         mUserPhone.setText(event.getUserPhone());
         longitude = Double.parseDouble(event.getLon());
         latitude = Double.parseDouble(event.getLat());
@@ -914,10 +917,6 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                 return false;
             }
         }
-//        else {
-//            ToastUtil.showShort(this, "请选择预计完成时间");
-//            return false;
-//        }
         return true;
     }
 
@@ -1049,6 +1048,9 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                 hideProgressDialog();
                 ToastUtil.showShort(this, "删除图片失败");
                 break;
+            case TASK_SET_MSG_READ:
+                ToastUtil.showShort(this, "设置消息为已读失败");
+                break;
             default:
                 break;
         }
@@ -1102,6 +1104,17 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
     public void dealSuccessResult(Object returnObject, int taskid) {
         super.dealSuccessResult(returnObject, taskid);
         switch (taskid){
+            case TASK_SET_MSG_READ:
+                if (returnObject!=null){
+                    JSONObject jsonObject = (JSONObject)returnObject;
+                    String flag = jsonObject.getString("flag");
+                    if (flag.equals("0000")){
+
+                    }else {
+                        ToastUtil.showShort(this, "设置消息为已读失败");
+                    }
+                }
+                break;
             case TASK_QUERY:
                 if (returnObject!=null){
                     QueryParamsResponse mr = (QueryParamsResponse)returnObject;
@@ -1162,9 +1175,7 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                         event.setUnit(json.getString("unit"));
                         event.setUserName(json.getString("userName"));
                         event.setUserPhone(json.getString("userPhone"));
-
                         startRequestEventImages();
-
                         updateGeneralView();
                         if (state.equals(Constant.State.DRAFT)){
                             updateDraftView();
@@ -1180,7 +1191,6 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                             updateFinishView();
                         }
                     }
-
                 }
                 break;
             case TASK_ADD_EVENT:
@@ -1336,12 +1346,37 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                                 ImageItem imageItem = new ImageItem(null, 1, imgUrl, filePk);
                                 imageItems.add(imageItem);
                             }
-                            imageItems.add(addImageBtn);
+                            if (state.equals(Constant.State.DRAFT)){
+                                imageItems.add(addImageBtn);
+                            }else if(state.equals(Constant.State.BUSI_CONFIRM)){
+                                imageItems.add(addImageBtn);
+                            }else if(state.equals(Constant.State.CONSTR_CONFIRM)){
+                                imageItems.add(addImageBtn);
+                            }else if(state.equals(Constant.State.CONSTR)){
+                                imageItems.add(addImageBtn);
+                            }else if(state.equals(Constant.State.ACCEPTANCE)){
+                                imageItems.add(addImageBtn);
+                            } else {
+
+                            }
                             imageAdapter.notifyDataSetChanged();
                             resizeGridHeight();
                         }
                     }else if (flag.equals("0001")){
-
+                        imageItems.clear();
+                        if (state.equals(Constant.State.DRAFT)){
+                            imageItems.add(addImageBtn);
+                        }else if(state.equals(Constant.State.BUSI_CONFIRM)){
+                            imageItems.add(addImageBtn);
+                        }else if(state.equals(Constant.State.CONSTR_CONFIRM)){
+                            imageItems.add(addImageBtn);
+                        }else if(state.equals(Constant.State.CONSTR)){
+                            imageItems.add(addImageBtn);
+                        }else if(state.equals(Constant.State.ACCEPTANCE)){
+                            imageItems.add(addImageBtn);
+                        }
+                        imageAdapter.notifyDataSetChanged();
+                        resizeGridHeight();
                     }else {
                         ToastUtil.showShort(this, "获取事件图片："+msg);
                     }
@@ -1638,72 +1673,77 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
         userName = DBUtil.getConfigValue("user_name");
 
         String filePath  = Constant.getStaticParamsDir(this)+Constant.PARAM_NAME;
-        String jsonString = FileUtil.readStringFromFile(filePath);
-        JSONObject jsonObject = JSONObject.parseObject(jsonString);
-        mRoutes.clear();
-        mRoutes.add("空");
-        mCarNos.clear();
-        mCarNos.add("空");
-        mTypes21.clear();
-        mTypes21.add("空");
-        mTypes22.clear();
-        mTypes22.add("空");
-        mTypes23.clear();
-        mTypes23.add("空");
-        mTypes3.clear();
-        mTypes3.add("空");
-        mTypes.clear();
-        mTypes.add("空");
-        mUnits.clear();
-        mUnits.add("空");
-        mProcessTypes.clear();
-        mProcessTypes.add("空");
-        mProcessDepts.clear();
-        mProcessDepts.add("空");
-        JSONArray mJSONArray = jsonObject.getJSONArray("路线");
-        for (int i=0; i<mJSONArray.size(); i++){
-            JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
-            mRoutes.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray1 = jsonObject.getJSONArray("车牌号");
-        for (int i=0; i<mJSONArray1.size(); i++){
-            JSONObject jsonObject1  =mJSONArray1.getJSONObject(i);
-            mCarNos.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray2 = jsonObject.getJSONArray("路政项目");
-        for (int i=0; i<mJSONArray2.size(); i++){
-            JSONObject jsonObject1  =mJSONArray2.getJSONObject(i);
-            mTypes21.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray3 = jsonObject.getJSONArray("养护项目");
-        for (int i=0; i<mJSONArray3.size(); i++){
-            JSONObject jsonObject1  =mJSONArray3.getJSONObject(i);
-            mTypes22.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray4 = jsonObject.getJSONArray("路网项目");
-        for (int i=0; i<mJSONArray4.size(); i++){
-            JSONObject jsonObject1  =mJSONArray4.getJSONObject(i);
-            mTypes23.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray6 = jsonObject.getJSONArray("处理类别");
-        for (int i=0; i<mJSONArray6.size(); i++){
-            JSONObject jsonObject1  =mJSONArray6.getJSONObject(i);
-            mTypes.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray7 = jsonObject.getJSONArray("计量单位");
-        for (int i=0; i<mJSONArray7.size(); i++){
-            JSONObject jsonObject1  =mJSONArray7.getJSONObject(i);
-            mUnits.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray8 = jsonObject.getJSONArray("处理情况");
-        for (int i=0; i<mJSONArray8.size(); i++){
-            JSONObject jsonObject1  =mJSONArray8.getJSONObject(i);
-            mProcessTypes.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray9 = jsonObject.getJSONArray("养护单位");
-        for (int i=0; i<mJSONArray9.size(); i++){
-            JSONObject jsonObject1  =mJSONArray9.getJSONObject(i);
-            mProcessDepts.add(jsonObject1.getString("name"));
+        if (new File(filePath).exists()){
+            String jsonString = FileUtil.readStringFromFile(filePath);
+            JSONObject jsonObject = JSONObject.parseObject(jsonString);
+            mRoutes.clear();
+            mRoutes.add("空");
+            mCarNos.clear();
+            mCarNos.add("空");
+            mTypes21.clear();
+            mTypes21.add("空");
+            mTypes22.clear();
+            mTypes22.add("空");
+            mTypes23.clear();
+            mTypes23.add("空");
+            mTypes3.clear();
+            mTypes3.add("空");
+            mTypes.clear();
+            mTypes.add("空");
+            mUnits.clear();
+            mUnits.add("空");
+            mProcessTypes.clear();
+            mProcessTypes.add("空");
+            mProcessDepts.clear();
+            mProcessDepts.add("空");
+            JSONArray mJSONArray = jsonObject.getJSONArray("路线");
+            for (int i=0; i<mJSONArray.size(); i++){
+                JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
+                mRoutes.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray1 = jsonObject.getJSONArray("车牌号");
+            for (int i=0; i<mJSONArray1.size(); i++){
+                JSONObject jsonObject1  =mJSONArray1.getJSONObject(i);
+                mCarNos.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray2 = jsonObject.getJSONArray("路政项目");
+            for (int i=0; i<mJSONArray2.size(); i++){
+                JSONObject jsonObject1  =mJSONArray2.getJSONObject(i);
+                mTypes21.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray3 = jsonObject.getJSONArray("养护项目");
+            for (int i=0; i<mJSONArray3.size(); i++){
+                JSONObject jsonObject1  =mJSONArray3.getJSONObject(i);
+                mTypes22.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray4 = jsonObject.getJSONArray("路网项目");
+            for (int i=0; i<mJSONArray4.size(); i++){
+                JSONObject jsonObject1  =mJSONArray4.getJSONObject(i);
+                mTypes23.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray6 = jsonObject.getJSONArray("处理类别");
+            for (int i=0; i<mJSONArray6.size(); i++){
+                JSONObject jsonObject1  =mJSONArray6.getJSONObject(i);
+                mTypes.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray7 = jsonObject.getJSONArray("计量单位");
+            for (int i=0; i<mJSONArray7.size(); i++){
+                JSONObject jsonObject1  =mJSONArray7.getJSONObject(i);
+                mUnits.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray8 = jsonObject.getJSONArray("处理情况");
+            for (int i=0; i<mJSONArray8.size(); i++){
+                JSONObject jsonObject1  =mJSONArray8.getJSONObject(i);
+                mProcessTypes.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray9 = jsonObject.getJSONArray("养护单位");
+            for (int i=0; i<mJSONArray9.size(); i++){
+                JSONObject jsonObject1  =mJSONArray9.getJSONObject(i);
+                mProcessDepts.add(jsonObject1.getString("name"));
+            }
+        }else {
+            ToastUtil.showShort(this, "请先初始化数据");
+            finish();
         }
     }
 
@@ -1745,11 +1785,6 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                         JSONObject mObject3 = mJSONArray.getJSONObject(1);
                         String imgUrl = mObject2.getString("imageUrl");
                         String imgPk = mObject3.getString("FilePK");
-//                        for (int i=0; i<mJSONArray.size(); i++){
-//
-////                        imageUrl = imgUrl;
-////                            returnImgUrls.add(imgUrl);
-//                        }
                         int index = imageItems.size()-2;
                         ImageItem mItem = imageItems.get(index);
                         mItem.setUploadStatus(1);
@@ -1764,7 +1799,6 @@ public class EventDetailEditActivity extends NaviActivity implements HttpUploadM
                     imageAdapter.notifyDataSetChanged();
                     ToastUtil.showShort(this, "上传图片失败:"+msg);
                 }
-//            mProgressBar.setVisibility(View.GONE);
                 ImageCompassUtil.deleteTempFile(mCurrentUploadPhotoPath);
             }
             isUpload = false;

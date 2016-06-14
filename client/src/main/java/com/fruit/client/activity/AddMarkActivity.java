@@ -164,31 +164,36 @@ public class AddMarkActivity extends NaviActivity implements HttpUploadManager.O
 
     private void initData() {
         String filePath  = Constant.getStaticParamsDir(this)+Constant.PARAM_NAME;
-        String jsonString = FileUtil.readStringFromFile(filePath);
-        JSONObject jsonObject = JSONObject.parseObject(jsonString);
-        JSONArray mJSONArray = jsonObject.getJSONArray("路线");
-        mRoutes.clear();
-        mSupportMethods.clear();
-        mLocations.clear();
-        mSingals.clear();
-        for (int i=0; i<mJSONArray.size(); i++){
-            JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
-            mRoutes.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray1 = jsonObject.getJSONArray("支持方式");
-        for (int i=0; i<mJSONArray1.size(); i++){
-            JSONObject jsonObject1  =mJSONArray1.getJSONObject(i);
-            mSupportMethods.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray2 = jsonObject.getJSONArray("位置");
-        for (int i=0; i<mJSONArray2.size(); i++){
-            JSONObject jsonObject1  =mJSONArray2.getJSONObject(i);
-            mLocations.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray3 = jsonObject.getJSONArray("标志");
-        for (int i=0; i<mJSONArray3.size(); i++){
-            JSONObject jsonObject1  =mJSONArray3.getJSONObject(i);
-            mSingals.add(jsonObject1.getString("name"));
+        if (new File(filePath).exists()){
+            String jsonString = FileUtil.readStringFromFile(filePath);
+            JSONObject jsonObject = JSONObject.parseObject(jsonString);
+            JSONArray mJSONArray = jsonObject.getJSONArray("路线");
+            mRoutes.clear();
+            mSupportMethods.clear();
+            mLocations.clear();
+            mSingals.clear();
+            for (int i=0; i<mJSONArray.size(); i++){
+                JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
+                mRoutes.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray1 = jsonObject.getJSONArray("支持方式");
+            for (int i=0; i<mJSONArray1.size(); i++){
+                JSONObject jsonObject1  =mJSONArray1.getJSONObject(i);
+                mSupportMethods.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray2 = jsonObject.getJSONArray("位置");
+            for (int i=0; i<mJSONArray2.size(); i++){
+                JSONObject jsonObject1  =mJSONArray2.getJSONObject(i);
+                mLocations.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray3 = jsonObject.getJSONArray("标志");
+            for (int i=0; i<mJSONArray3.size(); i++){
+                JSONObject jsonObject1  =mJSONArray3.getJSONObject(i);
+                mSingals.add(jsonObject1.getString("name"));
+            }
+        }else {
+            ToastUtil.showShort(this, "请先初始化数据");
+            finish();
         }
     }
 

@@ -61,6 +61,8 @@ public class MonitorActivity extends FruitActivity implements MyApplication.OnRe
         mapView.removeViewAt(1);
         mapView.showScaleControl(false);
         mapView.showZoomControls(true);
+        Locationor.getInstance(getApplication()).updateLocation(mapView, new LatLng(120.552644,31.874786), 16);
+
         Application mApplication1 = getApplication();
         if (mApplication1 instanceof MyApplication){
             mApplication = (MyApplication)mApplication1;

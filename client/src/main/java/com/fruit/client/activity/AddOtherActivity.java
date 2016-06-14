@@ -103,12 +103,9 @@ public class AddOtherActivity extends NaviActivity implements HttpUploadManager.
         super.onCreate(savedInstanceState);
         setUseMutiStateView(false);
         initData();
-
         setTopbarBackground(getResources().getColor(R.color.colorPrimary));
         setLeftImageView(getResources().getDrawable(R.drawable.ic_keyboard_arrow_left_white_48dp));
         setActivityTitle("添加其他设施");
-
-//        routeCodeText = (TextView)findViewById(R.id.text_route_code);
         mRouteSpinner = (Spinner)findViewById(R.id.spin_route);
         mOtherSpinner = (Spinner)findViewById(R.id.spinner_singal);
         mLocationSpinner = (Spinner)findViewById(R.id.spinner_location);
@@ -120,27 +117,13 @@ public class AddOtherActivity extends NaviActivity implements HttpUploadManager.
         mProgressBar = (ProgressBar)findViewById(R.id.progress);
         mScrollView = (ScrollView)findViewById(R.id.root);
         currentAddress = (TextView)findViewById(R.id.currentAddress);
-
         currentAddress.setText("当前位置："+currentAddressString);
-
         mImageView.setOnClickListener(this);
         mAdd.setOnClickListener(this);
-
-
-//        mRouteSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mRoutes));
         mOtherSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mOthers));
         mLocationSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mLocations));
         mSupportMethodSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mSupportMethods));
-
         String lastOtherRoute = DBUtil.getConfigValue("LastOtherRoute");
-//        if (lastOtherRoute!=null && lastOtherRoute.length()>0){
-//            for (int i=0; i<mRoutes.size(); i++){
-//                if (mRoutes.get(i).equals(lastOtherRoute)){
-//                    mRouteSpinner.setSelection(i);
-//                    break;
-//                }
-//            }
-//        }
     }
 
     private void getRouteCode(){
@@ -184,31 +167,36 @@ public class AddOtherActivity extends NaviActivity implements HttpUploadManager.
 
     private void initData() {
         String filePath  = Constant.getStaticParamsDir(this)+Constant.PARAM_NAME;
-        String jsonString = FileUtil.readStringFromFile(filePath);
-        JSONObject jsonObject = JSONObject.parseObject(jsonString);
-        JSONArray mJSONArray = jsonObject.getJSONArray("路线");
-        mRoutes.clear();
-        mSupportMethods.clear();
-        mLocations.clear();
-        mOthers.clear();
-        for (int i=0; i<mJSONArray.size(); i++){
-            JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
-            mRoutes.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray1 = jsonObject.getJSONArray("支持方式");
-        for (int i=0; i<mJSONArray1.size(); i++){
-            JSONObject jsonObject1  =mJSONArray1.getJSONObject(i);
-            mSupportMethods.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray2 = jsonObject.getJSONArray("位置");
-        for (int i=0; i<mJSONArray2.size(); i++){
-            JSONObject jsonObject1  =mJSONArray2.getJSONObject(i);
-            mLocations.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray3 = jsonObject.getJSONArray("其它");
-        for (int i=0; i<mJSONArray3.size(); i++){
-            JSONObject jsonObject1  =mJSONArray3.getJSONObject(i);
-            mOthers.add(jsonObject1.getString("name"));
+        if (new File(filePath).exists()){
+            String jsonString = FileUtil.readStringFromFile(filePath);
+            JSONObject jsonObject = JSONObject.parseObject(jsonString);
+            JSONArray mJSONArray = jsonObject.getJSONArray("路线");
+            mRoutes.clear();
+            mSupportMethods.clear();
+            mLocations.clear();
+            mOthers.clear();
+            for (int i=0; i<mJSONArray.size(); i++){
+                JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
+                mRoutes.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray1 = jsonObject.getJSONArray("支持方式");
+            for (int i=0; i<mJSONArray1.size(); i++){
+                JSONObject jsonObject1  =mJSONArray1.getJSONObject(i);
+                mSupportMethods.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray2 = jsonObject.getJSONArray("位置");
+            for (int i=0; i<mJSONArray2.size(); i++){
+                JSONObject jsonObject1  =mJSONArray2.getJSONObject(i);
+                mLocations.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray3 = jsonObject.getJSONArray("其它");
+            for (int i=0; i<mJSONArray3.size(); i++){
+                JSONObject jsonObject1  =mJSONArray3.getJSONObject(i);
+                mOthers.add(jsonObject1.getString("name"));
+            }
+        }else {
+            ToastUtil.showShort(this, "请先初始化数据");
+            finish();
         }
     }
 

@@ -117,7 +117,7 @@ public class DBUtil {
         return null;
     }
 
-    public static ArrayList<msg> getMsgs(){
+    public static ArrayList<msg> getMsgs() {
         DaoSession daoSession = DatabaseManager.getInstance().getDaoSession();
         msgDao messageDao = daoSession.getMsgDao();
         ArrayList<msg> shs = (ArrayList<msg>) messageDao.loadAll();

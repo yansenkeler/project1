@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fruit.client.R;
+import com.fruit.client.object.event.PushMessage;
 import com.fruit.core.db.models.gen.msg;
 
 import java.util.ArrayList;
@@ -17,10 +18,10 @@ import java.util.ArrayList;
  * Created by John on 2016/5/20.
  */
 public class MyMsgAdapter extends BaseAdapter {
-    private ArrayList<msg> msgs = new ArrayList<>();
+    private ArrayList<PushMessage> msgs = new ArrayList<>();
     private Context context;
 
-    public MyMsgAdapter(ArrayList<msg> msgs, Context context) {
+    public MyMsgAdapter(ArrayList<PushMessage> msgs, Context context) {
         this.msgs = msgs;
         this.context = context;
     }
@@ -42,7 +43,7 @@ public class MyMsgAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        msg msg = msgs.get(position);
+        PushMessage msg = msgs.get(position);
         ViewHolder vh;
         if (convertView==null){
             vh = new ViewHolder();
@@ -50,23 +51,26 @@ public class MyMsgAdapter extends BaseAdapter {
             vh.title = (TextView)convertView.findViewById(R.id.title);
             vh.description = (TextView)convertView.findViewById(R.id.desc);
             vh.msgMark = (ImageView) convertView.findViewById(R.id.is_read_mark);
+            vh.date = (TextView) convertView.findViewById(R.id.date);
             convertView.setTag(vh);
         }else {
             vh = (ViewHolder)convertView.getTag();
         }
-        if (msg.getIsRead()){
+        if (msg.getIsRead().equals("True")){
             vh.msgMark.setVisibility(View.GONE);
         }else {
             vh.msgMark.setVisibility(View.VISIBLE);
         }
         vh.title.setText(msg.getTitle());
-        vh.description.setText(msg.getDescription());
-        return null;
+        vh.description.setText(msg.getMsgCenter());
+        vh.date.setText(msg.getDateInfo());
+        return convertView;
     }
 
     class ViewHolder{
         TextView title;
         TextView description;
         ImageView msgMark;
+        TextView date;
     }
 }

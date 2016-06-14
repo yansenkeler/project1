@@ -146,7 +146,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         if (intent!=null && intent.hasExtra("latitude") &&
                 intent.hasExtra("longitude") && intent.hasExtra("start_address")){
             lon = intent.getDoubleExtra("longitude", 0);
@@ -187,7 +187,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
         mMemo = (EditText)findViewById(R.id.memo);
         mTimeSpinner = (Spinner)findViewById(R.id.spin_time);
 
-        mUserName.setText(DBUtil.getConfigValue("user_name"));
+        mUserName.setText(DBUtil.getConfigValue("real_name"));
         mUserPhone.setText(DBUtil.getConfigValue("user_phone"));
 
         Application application = getApplication();
@@ -209,7 +209,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                     if (position==mImageUrls.size()-1){
                         startPickImage();
                     }else {
-                        Intent intent1 = new Intent(AddEventActivity.this, BigImageActivity.class);
+                        Intent intent1 = new Intent(AddEventActivity.this, BigImage2Activity.class);
                         intent1.putExtra("currentIndex", position);
                         returnImageUrls.clear();
                         for (ImageItem imageItem: mImageUrls){
@@ -361,77 +361,82 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
         roleName = DBUtil.getConfigValue("role_name");
         userName = DBUtil.getConfigValue("user_name");
         String filePath  = Constant.getStaticParamsDir(this)+Constant.PARAM_NAME;
-        String jsonString = FileUtil.readStringFromFile(filePath);
-        JSONObject jsonObject = JSONObject.parseObject(jsonString);
-        mRoutes.clear();
-        mRoutes.add("空");
-        mCarNos.clear();
-        mCarNos.add("空");
-        mTypes21.clear();
-        mTypes21.add("空");
-        mTypes22.clear();
-        mTypes22.add("空");
-        mTypes23.clear();
-        mTypes23.add("空");
-        mTypes3.clear();
-        mTypes3.add("空");
-        mTypes.clear();
-        mTypes.add("空");
-        mUnits.clear();
-        mUnits.add("空");
-        mProcessTypes.clear();
-        mProcessTypes.add("空");
-        mProcessDepts.clear();
-        mProcessDepts.add("空");
-        JSONArray mJSONArray = jsonObject.getJSONArray("路线");
-        for (int i=0; i<mJSONArray.size(); i++){
-            JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
-            mRoutes.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray1 = jsonObject.getJSONArray("车牌号");
-        for (int i=0; i<mJSONArray1.size(); i++){
-            JSONObject jsonObject1  =mJSONArray1.getJSONObject(i);
-            mCarNos.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray2 = jsonObject.getJSONArray("路政项目");
-        for (int i=0; i<mJSONArray2.size(); i++){
-            JSONObject jsonObject1  =mJSONArray2.getJSONObject(i);
-            mTypes21.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray3 = jsonObject.getJSONArray("养护项目");
-        for (int i=0; i<mJSONArray3.size(); i++){
-            JSONObject jsonObject1  =mJSONArray3.getJSONObject(i);
-            mTypes22.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray4 = jsonObject.getJSONArray("路网项目");
-        for (int i=0; i<mJSONArray4.size(); i++){
-            JSONObject jsonObject1  =mJSONArray4.getJSONObject(i);
-            mTypes23.add(jsonObject1.getString("name"));
-        }
+        if (new File(filePath).exists()){
+            String jsonString = FileUtil.readStringFromFile(filePath);
+            JSONObject jsonObject = JSONObject.parseObject(jsonString);
+            mRoutes.clear();
+            mRoutes.add("空");
+            mCarNos.clear();
+            mCarNos.add("空");
+            mTypes21.clear();
+            mTypes21.add("空");
+            mTypes22.clear();
+            mTypes22.add("空");
+            mTypes23.clear();
+            mTypes23.add("空");
+            mTypes3.clear();
+            mTypes3.add("空");
+            mTypes.clear();
+            mTypes.add("空");
+            mUnits.clear();
+            mUnits.add("空");
+            mProcessTypes.clear();
+            mProcessTypes.add("空");
+            mProcessDepts.clear();
+            mProcessDepts.add("空");
+            JSONArray mJSONArray = jsonObject.getJSONArray("路线");
+            for (int i=0; i<mJSONArray.size(); i++){
+                JSONObject jsonObject1  =mJSONArray.getJSONObject(i);
+                mRoutes.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray1 = jsonObject.getJSONArray("车牌号");
+            for (int i=0; i<mJSONArray1.size(); i++){
+                JSONObject jsonObject1  =mJSONArray1.getJSONObject(i);
+                mCarNos.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray2 = jsonObject.getJSONArray("路政项目");
+            for (int i=0; i<mJSONArray2.size(); i++){
+                JSONObject jsonObject1  =mJSONArray2.getJSONObject(i);
+                mTypes21.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray3 = jsonObject.getJSONArray("养护项目");
+            for (int i=0; i<mJSONArray3.size(); i++){
+                JSONObject jsonObject1  =mJSONArray3.getJSONObject(i);
+                mTypes22.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray4 = jsonObject.getJSONArray("路网项目");
+            for (int i=0; i<mJSONArray4.size(); i++){
+                JSONObject jsonObject1  =mJSONArray4.getJSONObject(i);
+                mTypes23.add(jsonObject1.getString("name"));
+            }
 //        JSONArray mJSONArray5 = jsonObject.getJSONArray("项目类别");
 //        for (int i=0; i<mJSONArray3.size(); i++){
 //            JSONObject jsonObject1  =mJSONArray5.getJSONObject(i);
 //            mTypes3.add(jsonObject1.getString("name"));
 //        }
-        JSONArray mJSONArray6 = jsonObject.getJSONArray("处理类别");
-        for (int i=0; i<mJSONArray6.size(); i++){
-            JSONObject jsonObject1  =mJSONArray6.getJSONObject(i);
-            mTypes.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray7 = jsonObject.getJSONArray("计量单位");
-        for (int i=0; i<mJSONArray7.size(); i++){
-            JSONObject jsonObject1  =mJSONArray7.getJSONObject(i);
-            mUnits.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray8 = jsonObject.getJSONArray("处理情况");
-        for (int i=0; i<mJSONArray8.size(); i++){
-            JSONObject jsonObject1  =mJSONArray8.getJSONObject(i);
-            mProcessTypes.add(jsonObject1.getString("name"));
-        }
-        JSONArray mJSONArray9 = jsonObject.getJSONArray("养护单位");
-        for (int i=0; i<mJSONArray9.size(); i++){
-            JSONObject jsonObject1  =mJSONArray9.getJSONObject(i);
-            mProcessDepts.add(jsonObject1.getString("name"));
+            JSONArray mJSONArray6 = jsonObject.getJSONArray("处理类别");
+            for (int i=0; i<mJSONArray6.size(); i++){
+                JSONObject jsonObject1  =mJSONArray6.getJSONObject(i);
+                mTypes.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray7 = jsonObject.getJSONArray("计量单位");
+            for (int i=0; i<mJSONArray7.size(); i++){
+                JSONObject jsonObject1  =mJSONArray7.getJSONObject(i);
+                mUnits.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray8 = jsonObject.getJSONArray("处理情况");
+            for (int i=0; i<mJSONArray8.size(); i++){
+                JSONObject jsonObject1  =mJSONArray8.getJSONObject(i);
+                mProcessTypes.add(jsonObject1.getString("name"));
+            }
+            JSONArray mJSONArray9 = jsonObject.getJSONArray("养护单位");
+            for (int i=0; i<mJSONArray9.size(); i++){
+                JSONObject jsonObject1  =mJSONArray9.getJSONObject(i);
+                mProcessDepts.add(jsonObject1.getString("name"));
+            }
+        }else {
+            ToastUtil.showShort(this, "请先初始化数据");
+            finish();
         }
     }
 
@@ -535,12 +540,12 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                         }
 //                        routeCodeText.setText(routeCodeValue);
                     }else if (flag.equals("0001")){
-                        valid = false;
+//                        valid = false;
                         routeSpinner.setSelection(0);
 //                        routeCodeText.setText("查无此路线");
 //                        ToastUtil.showShort(this, "你无法在此处添加事件");
                     }else {
-                        valid = false;
+//                        valid = false;
                         routeSpinner.setSelection(0);
 //                        routeCodeText.setText("查无此路线");
                         ToastUtil.showShort(this, "你无法在此处添加事件");
@@ -580,7 +585,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
                 ToastUtil.showShort(this, "删除事件图片失败");
                 break;
             case TASK_GETROUTE:
-                valid = false;
+//                valid = false;
                 routeSpinner.setSelection(0);
 //                routeCodeText.setText("查无此路线");
                 ToastUtil.showShort(this, "你无法在此处添加事件");
@@ -917,7 +922,7 @@ public class AddEventActivity extends NaviActivity implements HttpUploadManager.
         mParams.put("carno", ((String) carNoSpinner.getSelectedItem()).equals("空")?"":((String) carNoSpinner.getSelectedItem()));
 //        mParams.put("routecode", routeCodeText.getText().toString().equals("查无此路线")?"":routeCodeText.getText().toString());
         mParams.put("routecode", ((String) routeSpinner.getSelectedItem()).equals("空")?"":((String) routeSpinner.getSelectedItem()));
-        mParams.put("username", mUserName.getText().toString());
+        mParams.put("username", DBUtil.getConfigValue("user_name"));
         mParams.put("userphone", mUserPhone.getText().toString());
         mParams.put("direction", (String) directionSpinner.getSelectedItem());
         mParams.put("lon", longitude+"");

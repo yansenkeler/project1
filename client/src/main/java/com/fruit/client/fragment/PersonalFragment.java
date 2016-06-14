@@ -78,20 +78,12 @@ public class PersonalFragment extends FruitFragment {
                 startActivity(intent1);
                 break;
             case R.id.finished_event:
-                if (DBUtil.getConfigValue("initial").equals("1")){
-                    Intent intent2 = new Intent(getActivity(), FinishedEventActivity.class);
-                    startActivity(intent2);
-                }else {
-                    ToastUtil.showShort(getActivity(), "请先初始化数据");
-                }
+                Intent intent2 = new Intent(getActivity(), FinishedEventActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.unfinish_event:
-                if (DBUtil.getConfigValue("initial").equals("1")){
-                    Intent intent3 = new Intent(getActivity(), UnfinishEventActivity.class);
-                    startActivity(intent3);
-                }else{
-                    ToastUtil.showShort(getActivity(), "请先初始化数据");
-                }
+                Intent intent3 = new Intent(getActivity(), UnfinishEventActivity.class);
+                startActivity(intent3);
                 break;
             case R.id.modify_pwd:
                 Intent intent4 = new Intent(getActivity(), ModifyPwdActivity.class);

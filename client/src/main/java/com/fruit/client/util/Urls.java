@@ -120,4 +120,6 @@ public class Urls {
 
     public static final String ADD_OTHER = "/AJAXReturnData/Other.ashx";
 
+    public static final String USER_MAG = "/AJAXReturnData/UserMsg.ashx";
+
 }

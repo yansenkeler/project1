@@ -62,12 +62,14 @@ public class BdPushReceiver  extends FruitPushMessageReceiver{
         if (jsonString!=null){
             JSONObject jsonObject = JSON.parseObject(jsonString);
             String billNoValue = jsonObject.getString("billno");
+            String msgPkValue = jsonObject.getString("msgpk");
             Intent intent = new Intent();
             intent.setClass(context.getApplicationContext(), EventDetailEditActivity.class);
             intent.putExtra("bill_no", billNoValue);
+            intent.putExtra("msg_pk", msgPkValue);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.getApplicationContext().startActivity(intent);
-            DBUtil.setIsRead(billNoValue, true);
+//            DBUtil.setIsRead(billNoValue, true);
         }
     }
 
@@ -78,7 +80,8 @@ public class BdPushReceiver  extends FruitPushMessageReceiver{
         if (jsonString!=null){
             JSONObject jsonObject = JSON.parseObject(jsonString);
             String billNoValue = jsonObject.getString("billno");
-            DBUtil.setMsg(title, content, billNoValue);
+            String msgPkValue = jsonObject.getString("msgpk");
+//            DBUtil.setMsg(title, content, billNoValue);
         }
     }
 }
